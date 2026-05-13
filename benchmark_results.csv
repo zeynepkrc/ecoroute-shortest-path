@@ -1,73 +1,103 @@
-nodes,density,edges,algorithm,distance,visited_count,runtime_ms,skipped,note
-10,0.02,9,Dijkstra List,60,9,0.023100,no,
-10,0.02,9,Dijkstra Matrix,60,9,0.022100,no,
-10,0.02,9,Bidirectional Dijkstra List,60,9,0.012400,no,
-10,0.02,9,Bidirectional Dijkstra Matrix,60,9,0.033800,no,
-10,0.02,9,Bellman-Ford,60,18,0.006400,no,
-10,0.02,9,Floyd-Warshall,60,1000,0.113900,no,
-10,0.1,9,Dijkstra List,99,9,0.006300,no,
-10,0.1,9,Dijkstra Matrix,99,9,0.016700,no,
-10,0.1,9,Bidirectional Dijkstra List,99,9,0.008800,no,
-10,0.1,9,Bidirectional Dijkstra Matrix,99,9,0.029300,no,
-10,0.1,9,Bellman-Ford,99,18,0.004300,no,
-10,0.1,9,Floyd-Warshall,99,1000,0.110200,no,
-10,0.5,45,Dijkstra List,12,18,0.012400,no,
-10,0.5,45,Dijkstra Matrix,12,18,0.016000,no,
-10,0.5,45,Bidirectional Dijkstra List,12,17,0.017800,no,
-10,0.5,45,Bidirectional Dijkstra Matrix,12,17,0.027500,no,
-10,0.5,45,Bellman-Ford,12,135,0.017600,no,
-10,0.5,45,Floyd-Warshall,12,1000,0.183400,no,
-50,0.02,49,Dijkstra List,451,49,0.022000,no,
-50,0.02,49,Dijkstra Matrix,451,49,0.223500,no,
-50,0.02,49,Bidirectional Dijkstra List,451,49,0.033500,no,
-50,0.02,49,Bidirectional Dijkstra Matrix,451,49,0.371900,no,
-50,0.02,49,Bellman-Ford,451,98,0.015800,no,
-50,0.02,49,Floyd-Warshall,451,125000,10.288500,no,
-50,0.1,245,Dijkstra List,25,88,0.071800,no,
-50,0.1,245,Dijkstra Matrix,25,88,0.124100,no,
-50,0.1,245,Bidirectional Dijkstra List,25,62,0.073600,no,
-50,0.1,245,Bidirectional Dijkstra Matrix,25,62,0.169500,no,
-50,0.1,245,Bellman-Ford,25,1225,0.133600,no,
-50,0.1,245,Floyd-Warshall,25,125000,16.834500,no,
-50,0.5,1225,Dijkstra List,5,845,0.276600,no,
-50,0.5,1225,Dijkstra Matrix,5,845,0.295200,no,
-50,0.5,1225,Bidirectional Dijkstra List,5,198,0.331500,no,
-50,0.5,1225,Bidirectional Dijkstra Matrix,5,198,0.282100,no,
-50,0.5,1225,Bellman-Ford,5,6125,0.600700,no,
-50,0.5,1225,Floyd-Warshall,5,125000,19.685000,no,
-100,0.02,198,Dijkstra List,21,15,0.059300,no,
-100,0.02,198,Dijkstra Matrix,21,15,0.157100,no,
-100,0.02,198,Bidirectional Dijkstra List,21,15,0.059700,no,
-100,0.02,198,Bidirectional Dijkstra Matrix,21,15,0.246700,no,
-100,0.02,198,Bellman-Ford,21,1188,0.142900,no,
-100,0.02,198,Floyd-Warshall,21,1000000,89.359200,no,
-100,0.1,990,Dijkstra List,17,969,0.296000,no,
-100,0.1,990,Dijkstra Matrix,17,969,0.861900,no,
-100,0.1,990,Bidirectional Dijkstra List,17,179,0.236900,no,
-100,0.1,990,Bidirectional Dijkstra Matrix,17,179,0.513800,no,
-100,0.1,990,Bellman-Ford,17,5940,0.676500,no,
-100,0.1,990,Floyd-Warshall,17,1000000,144.683400,no,
-100,0.5,4950,Dijkstra List,5,4443,1.278700,no,
-100,0.5,4950,Dijkstra Matrix,5,4443,1.397300,no,
-100,0.5,4950,Bidirectional Dijkstra List,5,631,1.140000,no,
-100,0.5,4950,Bidirectional Dijkstra Matrix,5,631,1.044700,no,
-100,0.5,4950,Bellman-Ford,5,24750,2.381700,no,
-100,0.5,4950,Floyd-Warshall,5,1000000,159.098000,no,
-250,0.02,1245,Dijkstra List,22,464,0.396600,no,
-250,0.02,1245,Dijkstra Matrix,22,464,3.007900,no,
-250,0.02,1245,Bidirectional Dijkstra List,22,126,0.569700,no,
-250,0.02,1245,Bidirectional Dijkstra Matrix,22,126,1.746000,no,
-250,0.02,1245,Bellman-Ford,22,7470,0.872900,no,
-250,0.02,1245,Floyd-Warshall,22,15625000,2102.128900,no,
-250,0.1,6225,Dijkstra List,5,854,1.105000,no,
-250,0.1,6225,Dijkstra Matrix,5,854,1.640300,no,
-250,0.1,6225,Bidirectional Dijkstra List,5,152,1.439400,no,
-250,0.1,6225,Bidirectional Dijkstra Matrix,5,152,1.928400,no,
-250,0.1,6225,Bellman-Ford,5,37350,3.714800,no,
-250,0.1,6225,Floyd-Warshall,5,15625000,2511.811600,no,
-250,0.5,31125,Dijkstra List,2,5057,4.663200,no,
-250,0.5,31125,Dijkstra Matrix,2,5057,4.308100,no,
-250,0.5,31125,Bidirectional Dijkstra List,2,238,8.410300,no,
-250,0.5,31125,Bidirectional Dijkstra Matrix,2,238,5.927600,no,
-250,0.5,31125,Bellman-Ford,2,124500,12.303100,no,
-250,0.5,31125,Floyd-Warshall,2,15625000,2485.357200,no,
+test_case,num_nodes,density,allow_negative,query_count,algorithm,average_distance_summary,average_visited_count,total_runtime_seconds,average_runtime_seconds,status
+all_nonneg_n10_d0.02,10,0.0200,false,6,Dijkstra List,mean=22.8; unreachable=1,3.500000,0.000052100,0.000008683,Correct
+all_nonneg_n10_d0.02,10,0.0200,false,6,Dijkstra Matrix,mean=22.8; unreachable=1,3.500000,0.000057000,0.000009500,Correct
+all_nonneg_n10_d0.02,10,0.0200,false,6,Bidirectional Dijkstra List,mean=22.8; unreachable=1,3.666667,0.000109700,0.000018283,Correct
+all_nonneg_n10_d0.02,10,0.0200,false,6,Bidirectional Dijkstra Matrix,mean=22.8; unreachable=1,3.833333,0.000109900,0.000018317,Correct
+all_nonneg_n10_d0.02,10,0.0200,false,6,Bellman-Ford,mean=22.8; unreachable=1,36.000000,0.000030300,0.000005050,Correct
+all_nonneg_n10_d0.02,10,0.0200,false,6,Floyd-Warshall,mean=22.8; unreachable=1,166.666667,0.000176400,0.000029400,Reference
+all_nonneg_n10_d0.10,10,0.1000,false,6,Dijkstra List,mean=47.5; unreachable=2,4.333333,0.000022200,0.000003700,Correct
+all_nonneg_n10_d0.10,10,0.1000,false,6,Dijkstra Matrix,mean=47.5; unreachable=2,4.333333,0.000052000,0.000008667,Correct
+all_nonneg_n10_d0.10,10,0.1000,false,6,Bidirectional Dijkstra List,mean=47.5; unreachable=2,3.833333,0.000032000,0.000005333,Correct
+all_nonneg_n10_d0.10,10,0.1000,false,6,Bidirectional Dijkstra Matrix,mean=47.5; unreachable=2,4.666667,0.000100400,0.000016733,Correct
+all_nonneg_n10_d0.10,10,0.1000,false,6,Bellman-Ford,mean=47.5; unreachable=2,36.000000,0.000023600,0.000003933,Correct
+all_nonneg_n10_d0.10,10,0.1000,false,6,Floyd-Warshall,mean=47.5; unreachable=2,166.666667,0.000100000,0.000016667,Reference
+all_nonneg_n10_d0.50,10,0.5000,false,6,Dijkstra List,mean=9.667,21.500000,0.000052100,0.000008683,Correct
+all_nonneg_n10_d0.50,10,0.5000,false,6,Dijkstra Matrix,mean=9.667,21.500000,0.000082100,0.000013683,Correct
+all_nonneg_n10_d0.50,10,0.5000,false,6,Bidirectional Dijkstra List,mean=9.667,11.500000,0.000062100,0.000010350,Correct
+all_nonneg_n10_d0.50,10,0.5000,false,6,Bidirectional Dijkstra Matrix,mean=9.667,11.500000,0.000094400,0.000015733,Correct
+all_nonneg_n10_d0.50,10,0.5000,false,6,Bellman-Ford,mean=9.667,240.000000,0.000118300,0.000019717,Correct
+all_nonneg_n10_d0.50,10,0.5000,false,6,Floyd-Warshall,mean=9.667,166.666667,0.000153100,0.000025517,Reference
+all_nonneg_n50_d0.02,50,0.0200,false,6,Dijkstra List,mean=205.6; unreachable=1,21.500000,0.000088100,0.000014683,Correct
+all_nonneg_n50_d0.02,50,0.0200,false,6,Dijkstra Matrix,mean=205.6; unreachable=1,21.500000,0.000473900,0.000078983,Correct
+all_nonneg_n50_d0.02,50,0.0200,false,6,Bidirectional Dijkstra List,mean=205.6; unreachable=1,22.833333,0.000122500,0.000020417,Correct
+all_nonneg_n50_d0.02,50,0.0200,false,6,Bidirectional Dijkstra Matrix,mean=205.6; unreachable=1,23.333333,0.000967200,0.000161200,Correct
+all_nonneg_n50_d0.02,50,0.0200,false,6,Bellman-Ford,mean=205.6; unreachable=1,196.000000,0.000177700,0.000029617,Correct
+all_nonneg_n50_d0.02,50,0.0200,false,6,Floyd-Warshall,mean=205.6; unreachable=1,20833.333333,0.011112900,0.001852150,Reference
+all_nonneg_n50_d0.10,50,0.1000,false,6,Dijkstra List,mean=20.33,119.833333,0.000296200,0.000049367,Correct
+all_nonneg_n50_d0.10,50,0.1000,false,6,Dijkstra Matrix,mean=20.33,119.833333,0.000680800,0.000113467,Correct
+all_nonneg_n50_d0.10,50,0.1000,false,6,Bidirectional Dijkstra List,mean=20.33,51.000000,0.000338000,0.000056333,Correct
+all_nonneg_n50_d0.10,50,0.1000,false,6,Bidirectional Dijkstra Matrix,mean=20.33,51.000000,0.000801700,0.000133617,Correct
+all_nonneg_n50_d0.10,50,0.1000,false,6,Bellman-Ford,mean=20.33,1715.000000,0.000908800,0.000151467,Correct
+all_nonneg_n50_d0.10,50,0.1000,false,6,Floyd-Warshall,mean=20.33,20833.333333,0.018209300,0.003034883,Reference
+all_nonneg_n50_d0.50,50,0.5000,false,6,Dijkstra List,mean=4.333,585.666667,0.001093600,0.000182267,Correct
+all_nonneg_n50_d0.50,50,0.5000,false,6,Dijkstra Matrix,mean=4.333,585.666667,0.001243000,0.000207167,Correct
+all_nonneg_n50_d0.50,50,0.5000,false,6,Bidirectional Dijkstra List,mean=4.333,118.333333,0.001419100,0.000236517,Correct
+all_nonneg_n50_d0.50,50,0.5000,false,6,Bidirectional Dijkstra Matrix,mean=4.333,118.333333,0.001397000,0.000232833,Correct
+all_nonneg_n50_d0.50,50,0.5000,false,6,Bellman-Ford,mean=4.333,7962.500000,0.007698500,0.001283083,Correct
+all_nonneg_n50_d0.50,50,0.5000,false,6,Floyd-Warshall,mean=4.333,20833.333333,0.017558600,0.002926433,Reference
+all_nonneg_n100_d0.02,100,0.0200,false,6,Dijkstra List,mean=58.17,82.833333,0.000392900,0.000065483,Correct
+all_nonneg_n100_d0.02,100,0.0200,false,6,Dijkstra Matrix,mean=58.17,82.833333,0.001968900,0.000328150,Correct
+all_nonneg_n100_d0.02,100,0.0200,false,6,Bidirectional Dijkstra List,mean=58.17,39.333333,0.000346400,0.000057733,Correct
+all_nonneg_n100_d0.02,100,0.0200,false,6,Bidirectional Dijkstra Matrix,mean=58.17,39.333333,0.002033800,0.000338967,Correct
+all_nonneg_n100_d0.02,100,0.0200,false,6,Bellman-Ford,mean=58.17,1749.000000,0.000958400,0.000159733,Correct
+all_nonneg_n100_d0.02,100,0.0200,false,6,Floyd-Warshall,mean=58.17,166666.666667,0.093549100,0.015591517,Reference
+all_nonneg_n100_d0.10,100,0.1000,false,6,Dijkstra List,mean=12.5,523.833333,0.001117700,0.000186283,Correct
+all_nonneg_n100_d0.10,100,0.1000,false,6,Dijkstra Matrix,mean=12.5,523.833333,0.002895800,0.000482633,Correct
+all_nonneg_n100_d0.10,100,0.1000,false,6,Bidirectional Dijkstra List,mean=12.5,109.333333,0.001081400,0.000180233,Correct
+all_nonneg_n100_d0.10,100,0.1000,false,6,Bidirectional Dijkstra Matrix,mean=12.5,109.333333,0.002200500,0.000366750,Correct
+all_nonneg_n100_d0.10,100,0.1000,false,6,Bellman-Ford,mean=12.5,7260.000000,0.003816900,0.000636150,Correct
+all_nonneg_n100_d0.10,100,0.1000,false,6,Floyd-Warshall,mean=12.5,166666.666667,0.147353800,0.024558967,Reference
+all_nonneg_n100_d0.50,100,0.5000,false,6,Dijkstra List,mean=3.833,2761.833333,0.005279700,0.000879950,Correct
+all_nonneg_n100_d0.50,100,0.5000,false,6,Dijkstra Matrix,mean=3.833,2761.833333,0.005559800,0.000926633,Correct
+all_nonneg_n100_d0.50,100,0.5000,false,6,Bidirectional Dijkstra List,mean=3.833,405.166667,0.007079600,0.001179933,Correct
+all_nonneg_n100_d0.50,100,0.5000,false,6,Bidirectional Dijkstra Matrix,mean=3.833,405.166667,0.005688600,0.000948100,Correct
+all_nonneg_n100_d0.50,100,0.5000,false,6,Bellman-Ford,mean=3.833,33000.000000,0.017091600,0.002848600,Correct
+all_nonneg_n100_d0.50,100,0.5000,false,6,Floyd-Warshall,mean=3.833,166666.666667,0.168984000,0.028164000,Reference
+all_nonneg_n250_d0.02,250,0.0200,false,6,Dijkstra List,mean=21.5,567.500000,0.001498100,0.000249683,Correct
+all_nonneg_n250_d0.02,250,0.0200,false,6,Dijkstra Matrix,mean=21.5,567.500000,0.013507000,0.002251167,Correct
+all_nonneg_n250_d0.02,250,0.0200,false,6,Bidirectional Dijkstra List,mean=21.5,103.833333,0.001568300,0.000261383,Correct
+all_nonneg_n250_d0.02,250,0.0200,false,6,Bidirectional Dijkstra Matrix,mean=21.5,103.833333,0.008165900,0.001360983,Correct
+all_nonneg_n250_d0.02,250,0.0200,false,6,Bellman-Ford,mean=21.5,10790.000000,0.005670800,0.000945133,Correct
+all_nonneg_n250_d0.02,250,0.0200,false,6,Floyd-Warshall,mean=21.5,2604166.666667,1.892464000,0.315410667,Reference
+all_nonneg_n250_d0.10,250,0.1000,false,6,Dijkstra List,mean=6.167,2222.333333,0.009442700,0.001573783,Correct
+all_nonneg_n250_d0.10,250,0.1000,false,6,Dijkstra Matrix,mean=6.167,2222.333333,0.020788000,0.003464667,Correct
+all_nonneg_n250_d0.10,250,0.1000,false,6,Bidirectional Dijkstra List,mean=6.167,308.666667,0.016688100,0.002781350,Correct
+all_nonneg_n250_d0.10,250,0.1000,false,6,Bidirectional Dijkstra Matrix,mean=6.167,308.666667,0.016122200,0.002687033,Correct
+all_nonneg_n250_d0.10,250,0.1000,false,6,Bellman-Ford,mean=6.167,45650.000000,0.032737400,0.005456233,Correct
+all_nonneg_n250_d0.10,250,0.1000,false,6,Floyd-Warshall,mean=6.167,2604166.666667,2.740807500,0.456801250,Reference
+all_nonneg_n250_d0.50,250,0.5000,false,6,Dijkstra List,mean=2.667,10682.666667,0.027953700,0.004658950,Correct
+all_nonneg_n250_d0.50,250,0.5000,false,6,Dijkstra Matrix,mean=2.667,10682.666667,0.029304800,0.004884133,Correct
+all_nonneg_n250_d0.50,250,0.5000,false,6,Bidirectional Dijkstra List,mean=2.667,561.333333,0.058509000,0.009751500,Correct
+all_nonneg_n250_d0.50,250,0.5000,false,6,Bidirectional Dijkstra Matrix,mean=2.667,561.333333,0.033598200,0.005599700,Correct
+all_nonneg_n250_d0.50,250,0.5000,false,6,Bellman-Ford,mean=2.667,191937.500000,0.089417400,0.014902900,Correct
+all_nonneg_n250_d0.50,250,0.5000,false,6,Floyd-Warshall,mean=2.667,2604166.666667,2.989608400,0.498268067,Reference
+all_acyclic_neg_n30_d0.12,30,0.1200,true,6,Dijkstra List,mean=7.75; unreachable=2,11.333333,0.000072000,0.000012000,Not guaranteed with negative weights / limitation demo
+all_acyclic_neg_n30_d0.12,30,0.1200,true,6,Dijkstra Matrix,mean=7.75; unreachable=2,11.333333,0.000153000,0.000025500,Not guaranteed with negative weights / limitation demo
+all_acyclic_neg_n30_d0.12,30,0.1200,true,6,Bidirectional Dijkstra List,mean=9.25; unreachable=2,10.000000,0.000075200,0.000012533,Not guaranteed with negative weights / limitation demo
+all_acyclic_neg_n30_d0.12,30,0.1200,true,6,Bidirectional Dijkstra Matrix,mean=9.25; unreachable=2,12.500000,0.000278500,0.000046417,Not guaranteed with negative weights / limitation demo
+all_acyclic_neg_n30_d0.12,30,0.1200,true,6,Bellman-Ford,mean=7.75; unreachable=2,286.000000,0.000103500,0.000017250,Reference
+all_acyclic_neg_n30_d0.12,30,0.1200,true,6,Floyd-Warshall,mean=7.75; unreachable=2,4500.000000,0.001481400,0.000246900,Reference
+all_acyclic_neg_n40_d0.18,40,0.1800,true,6,Dijkstra List,mean=-12; unreachable=2,46.666667,0.000169800,0.000028300,Not guaranteed with negative weights / limitation demo
+all_acyclic_neg_n40_d0.18,40,0.1800,true,6,Dijkstra Matrix,mean=-12; unreachable=2,42.833333,0.000380900,0.000063483,Not guaranteed with negative weights / limitation demo
+all_acyclic_neg_n40_d0.18,40,0.1800,true,6,Bidirectional Dijkstra List,mean=-12; unreachable=2,45.833333,0.000269500,0.000044917,Not guaranteed with negative weights / limitation demo
+all_acyclic_neg_n40_d0.18,40,0.1800,true,6,Bidirectional Dijkstra Matrix,mean=-12; unreachable=2,55.666667,0.000741900,0.000123650,Not guaranteed with negative weights / limitation demo
+all_acyclic_neg_n40_d0.18,40,0.1800,true,6,Bellman-Ford,mean=-14.5; unreachable=2,840.000000,0.000372000,0.000062000,Reference
+all_acyclic_neg_n40_d0.18,40,0.1800,true,6,Floyd-Warshall,mean=-14.5; unreachable=2,10666.666667,0.003837800,0.000639633,Reference
+all_neg_cycle_toy,4,0.3500,true,4,Dijkstra List,mean=3.5,1.750000,0.000008300,0.000002075,Not guaranteed with negative weights / limitation demo
+all_neg_cycle_toy,4,0.3500,true,4,Dijkstra Matrix,mean=3.5,1.750000,0.000012300,0.000003075,Not guaranteed with negative weights / limitation demo
+all_neg_cycle_toy,4,0.3500,true,4,Bidirectional Dijkstra List,mean=3.5,1.750000,0.000011100,0.000002775,Not guaranteed with negative weights / limitation demo
+all_neg_cycle_toy,4,0.3500,true,4,Bidirectional Dijkstra Matrix,mean=3.5,1.750000,0.000021600,0.000005400,Not guaranteed with negative weights / limitation demo
+all_neg_cycle_toy,4,0.3500,true,4,Bellman-Ford,mean=0; neg_inf=3,24.000000,0.000013700,0.000003425,Negative cycle detected
+all_neg_cycle_toy,4,0.3500,true,4,Floyd-Warshall,mean=-1,16.000000,0.000013800,0.000003450,Negative cycle detected
+scale_large_n800_d0.02,800,0.0200,false,6,Dijkstra List,mean=12.67,5679.500000,0.023098300,0.003849717,-
+scale_large_n800_d0.02,800,0.0200,false,6,Dijkstra Matrix,SKIPPED,-,-,-,Skipped due to O(V^2) matrix memory/runtime cost on large graph
+scale_large_n800_d0.02,800,0.0200,false,6,Bidirectional Dijkstra List,mean=12.67,612.833333,0.024692400,0.004115400,-
+scale_large_n800_d0.02,800,0.0200,false,6,Bidirectional Dijkstra Matrix,SKIPPED,-,-,-,Skipped due to O(V^2) matrix memory/runtime cost on large graph
+scale_large_n800_d0.02,800,0.0200,false,6,Bellman-Ford,SKIPPED,-,-,-,Skipped due to O(VE) scalability on large graph
+scale_large_n800_d0.02,800,0.0200,false,6,Floyd-Warshall,SKIPPED,-,-,-,Skipped due to O(V^3) scalability on large graph
+scale_large_n1200_d0.02,1200,0.0200,false,6,Dijkstra List,mean=8.333,9959.500000,0.055491000,0.009248500,-
+scale_large_n1200_d0.02,1200,0.0200,false,6,Dijkstra Matrix,SKIPPED,-,-,-,Skipped due to O(V^2) matrix memory/runtime cost on large graph
+scale_large_n1200_d0.02,1200,0.0200,false,6,Bidirectional Dijkstra List,mean=8.333,633.666667,0.083919000,0.013986500,-
+scale_large_n1200_d0.02,1200,0.0200,false,6,Bidirectional Dijkstra Matrix,SKIPPED,-,-,-,Skipped due to O(V^2) matrix memory/runtime cost on large graph
+scale_large_n1200_d0.02,1200,0.0200,false,6,Bellman-Ford,SKIPPED,-,-,-,Skipped due to O(VE) scalability on large graph
+scale_large_n1200_d0.02,1200,0.0200,false,6,Floyd-Warshall,SKIPPED,-,-,-,Skipped due to O(V^3) scalability on large graph

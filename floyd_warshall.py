@@ -1,5 +1,5 @@
 """
-Floyd-Warshall all-pairs shortest paths for directed graphs with positive weights.
+Floyd-Warshall all-pairs shortest paths for directed graphs.
 
 ``visited_count`` is the number of innermost triple-loop iterations
 ``(k, i, j)``, i.e. ``num_nodes ** 3``, which is Theta(|V|^3) regardless of
@@ -12,6 +12,42 @@ from typing import List, Optional, Sequence, Tuple
 
 Edge = Tuple[int, int, int]
 INF = float("inf")
+
+
+def floyd_warshall_preprocess(
+    num_nodes: int, edges: Sequence[Edge]
+) -> Tuple[List[List[float]], int, bool]:
+    """
+    Build an all-pairs distance matrix with one Floyd-Warshall pass.
+
+    Returns ``(dist_matrix, visited_count, has_negative_cycle)``.
+    ``has_negative_cycle`` is True iff some vertex ``i`` has ``dist[i][i] < 0``
+    after the triple loop (standard sufficient check for a negative directed
+    cycle in the graph).
+    """
+    if num_nodes < 1:
+        raise ValueError("num_nodes must be at least 1.")
+
+    dist: List[List[float]] = [[INF] * num_nodes for _ in range(num_nodes)]
+    for i in range(num_nodes):
+        dist[i][i] = 0.0
+    for u, v, w in edges:
+        ww = float(w)
+        if ww < dist[u][v]:
+            dist[u][v] = ww
+
+    visited_count = 0
+    for k in range(num_nodes):
+        for i in range(num_nodes):
+            for j in range(num_nodes):
+                visited_count += 1
+                if dist[i][k] < INF and dist[k][j] < INF:
+                    through = dist[i][k] + dist[k][j]
+                    if through < dist[i][j]:
+                        dist[i][j] = through
+
+    has_negative_cycle = any(dist[i][i] < 0 for i in range(num_nodes))
+    return dist, visited_count, has_negative_cycle
 
 
 def _finite_int_distance(d: float) -> Optional[int]:
@@ -32,22 +68,6 @@ def floyd_warshall(num_nodes: int, edges: Sequence[Edge], source: int, target: i
     if source == target:
         return 0, 0
 
-    dist: List[List[float]] = [[INF] * num_nodes for _ in range(num_nodes)]
-    for i in range(num_nodes):
-        dist[i][i] = 0.0
-    for u, v, w in edges:
-        if w < dist[u][v]:
-            dist[u][v] = float(w)
-
-    visited_count = 0
-    for k in range(num_nodes):
-        for i in range(num_nodes):
-            for j in range(num_nodes):
-                visited_count += 1
-                if dist[i][k] < INF and dist[k][j] < INF:
-                    through = dist[i][k] + dist[k][j]
-                    if through < dist[i][j]:
-                        dist[i][j] = through
-
+    dist, visited_count, _ = floyd_warshall_preprocess(num_nodes, edges)
     d = dist[source][target]
     return _finite_int_distance(d), visited_count

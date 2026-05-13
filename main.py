@@ -1,20 +1,21 @@
 """
 Benchmark driver: compare shortest-path algorithms on shared random graphs.
 
-Run from the ``project`` directory::
+Run from the project directory::
 
     python main.py
 
-Outputs ``benchmark_results.csv`` and prints a summary table. Optional
+Writes ``benchmark_results.csv`` and prints a summary table. Optional
 matplotlib figures are written if matplotlib is installed.
 """
 
 from __future__ import annotations
 
 import csv
+import math
 import time
 from collections import defaultdict
-from typing import Any, Callable, Dict, List, Optional, Tuple
+from typing import Any, Callable, Dict, List, Optional, Sequence, Tuple
 
 from bellman_ford import bellman_ford
 from bidirectional_dijkstra import (
@@ -22,10 +23,13 @@ from bidirectional_dijkstra import (
     bidirectional_dijkstra_matrix,
 )
 from dijkstra import dijkstra_list, dijkstra_matrix
-from floyd_warshall import floyd_warshall
+from floyd_warshall import floyd_warshall_preprocess
 from graph_utils import create_test_cases
 
-AlgoFn = Callable[[int, List[Tuple[int, int, int]], int, int], Tuple[Optional[int], int]]
+Edge = Tuple[int, int, int]
+INF = float("inf")
+
+AlgoFn = Callable[[int, Sequence[Edge], int, int], Tuple[Any, int]]
 
 ALGORITHMS: List[Tuple[str, AlgoFn]] = [
     ("Dijkstra List", dijkstra_list),
@@ -33,65 +37,281 @@ ALGORITHMS: List[Tuple[str, AlgoFn]] = [
     ("Bidirectional Dijkstra List", bidirectional_dijkstra_list),
     ("Bidirectional Dijkstra Matrix", bidirectional_dijkstra_matrix),
     ("Bellman-Ford", bellman_ford),
-    ("Floyd-Warshall", floyd_warshall),
 ]
 
+LARGE_SCALABILITY_SKIP: Dict[str, str] = {
+    "Dijkstra Matrix": "Skipped due to O(V^2) matrix memory/runtime cost on large graph",
+    "Bidirectional Dijkstra Matrix": "Skipped due to O(V^2) matrix memory/runtime cost on large graph",
+    "Bellman-Ford": "Skipped due to O(VE) scalability on large graph",
+    "Floyd-Warshall": "Skipped due to O(V^3) scalability on large graph",
+}
 
-def should_skip(algorithm_name: str, num_nodes: int, density: float) -> bool:
-    if algorithm_name == "Floyd-Warshall" and num_nodes > 250:
+DIJKSTRA_FAMILY = {
+    "Dijkstra List",
+    "Dijkstra Matrix",
+    "Bidirectional Dijkstra List",
+    "Bidirectional Dijkstra Matrix",
+}
+
+REFERENCE_ALGOS = {"Bellman-Ford", "Floyd-Warshall"}
+
+NEG_WEIGHT_LIMITATION = "Not guaranteed with negative weights / limitation demo"
+
+
+def _normalize_distance(value: Any) -> Optional[float]:
+    if value is None:
+        return None
+    if isinstance(value, float) and value == float("-inf"):
+        return float("-inf")
+    return float(value)
+
+
+def _matrix_distance(dist_matrix: List[List[float]], s: int, t: int) -> Optional[float]:
+    d = dist_matrix[s][t]
+    if d >= INF / 2:
+        return None
+    return float(d)
+
+
+def _distances_equivalent(a: Optional[float], b: Optional[float]) -> bool:
+    if a is None and b is None:
         return True
-    return False
+    if a is None or b is None:
+        return False
+    if a == float("-inf") or b == float("-inf"):
+        return a == float("-inf") and b == float("-inf")
+    return math.isfinite(a) and math.isfinite(b) and abs(a - b) < 1e-6
+
+
+def _reference_per_query(
+    num_nodes: int,
+    edges: Sequence[Edge],
+    queries: List[Tuple[int, int]],
+    dist_matrix: List[List[float]],
+    has_negative_cycle: bool,
+) -> List[Optional[float]]:
+    if has_negative_cycle:
+        out: List[Optional[float]] = []
+        for s, t in queries:
+            d, _ = bellman_ford(num_nodes, edges, s, t)
+            out.append(_normalize_distance(d))
+        return out
+    return [_matrix_distance(dist_matrix, s, t) for s, t in queries]
+
+
+def _average_distance_summary(distances: List[Optional[float]]) -> str:
+    finites: List[float] = []
+    n_none = 0
+    n_neg_inf = 0
+    for d in distances:
+        if d is None:
+            n_none += 1
+        elif d == float("-inf"):
+            n_neg_inf += 1
+        elif math.isfinite(d):
+            finites.append(d)
+    parts: List[str] = []
+    if finites:
+        parts.append(f"mean={sum(finites) / len(finites):.4g}")
+    if n_none:
+        parts.append(f"unreachable={n_none}")
+    if n_neg_inf:
+        parts.append(f"neg_inf={n_neg_inf}")
+    if not parts:
+        return "n/a"
+    return "; ".join(parts)
+
+
+def _should_skip_algorithm(case: Dict[str, Any], algorithm_name: str) -> Optional[str]:
+    if case["benchmark_type"] != "large_scalability":
+        return None
+    return LARGE_SCALABILITY_SKIP.get(algorithm_name)
+
+
+def _status_for_row(
+    case: Dict[str, Any],
+    algorithm_name: str,
+    skipped: bool,
+    skip_reason: str,
+    has_negative_cycle: bool,
+    all_match_reference: bool,
+) -> str:
+    if skipped:
+        return skip_reason
+    if case["benchmark_type"] == "large_scalability":
+        return "-"
+    if case["allow_negative"] and algorithm_name in DIJKSTRA_FAMILY:
+        return NEG_WEIGHT_LIMITATION
+    if has_negative_cycle and algorithm_name in REFERENCE_ALGOS:
+        return "Negative cycle detected"
+    if algorithm_name in REFERENCE_ALGOS and case["allow_negative"]:
+        return "Reference"
+    if not case["allow_negative"]:
+        return "Correct" if all_match_reference else "Mismatch"
+    if algorithm_name in REFERENCE_ALGOS:
+        return "Reference"
+    return "Correct" if all_match_reference else "Mismatch"
+
+
+def _run_floyd_warshall_benchmark_row(
+    case: Dict[str, Any],
+    num_nodes: int,
+    queries: List[Tuple[int, int]],
+    query_count: int,
+    fw_shared: Tuple[List[List[float]], int, bool, float],
+) -> Dict[str, Any]:
+    dist_matrix, prep_visited, has_negative_cycle, prep_seconds = fw_shared
+
+    t_lu0 = time.perf_counter()
+    distances: List[Optional[float]] = []
+    for s, t in queries:
+        distances.append(_matrix_distance(dist_matrix, s, t))
+    t_lu1 = time.perf_counter()
+    lookup_seconds = t_lu1 - t_lu0
+
+    total_seconds = prep_seconds + lookup_seconds
+    average_seconds = total_seconds / query_count if query_count else 0.0
+    average_visited = prep_visited / query_count if query_count else float(prep_visited)
+
+    status = "Negative cycle detected" if has_negative_cycle else "Reference"
+
+    return {
+        "test_case": case["name"],
+        "num_nodes": str(num_nodes),
+        "density": f"{case['density']:.4f}",
+        "allow_negative": str(bool(case["allow_negative"])).lower(),
+        "query_count": str(query_count),
+        "algorithm": "Floyd-Warshall",
+        "average_distance_summary": _average_distance_summary(distances),
+        "average_visited_count": f"{average_visited:.6f}",
+        "total_runtime_seconds": f"{total_seconds:.9f}",
+        "average_runtime_seconds": f"{average_seconds:.9f}",
+        "status": status,
+    }
+
+
+def _run_normal_algorithm_row(
+    case: Dict[str, Any],
+    algorithm_name: str,
+    algo_fn: AlgoFn,
+    num_nodes: int,
+    edges: Sequence[Edge],
+    queries: List[Tuple[int, int]],
+    query_count: int,
+    reference: List[Optional[float]],
+    has_negative_cycle: bool,
+) -> Dict[str, Any]:
+    distances: List[Optional[float]] = []
+    total_visited = 0
+    total_seconds = 0.0
+
+    for s, t in queries:
+        t0 = time.perf_counter()
+        dist, visited = algo_fn(num_nodes, edges, s, t)
+        t1 = time.perf_counter()
+        total_seconds += t1 - t0
+        total_visited += visited
+        distances.append(_normalize_distance(dist))
+
+    average_seconds = total_seconds / query_count if query_count else 0.0
+    average_visited = total_visited / query_count if query_count else 0.0
+
+    all_match = all(
+        _distances_equivalent(distances[i], reference[i]) for i in range(len(queries))
+    )
+    status = _status_for_row(
+        case, algorithm_name, False, "", has_negative_cycle, all_match
+    )
+
+    return {
+        "test_case": case["name"],
+        "num_nodes": str(num_nodes),
+        "density": f"{case['density']:.4f}",
+        "allow_negative": str(bool(case["allow_negative"])).lower(),
+        "query_count": str(query_count),
+        "algorithm": algorithm_name,
+        "average_distance_summary": _average_distance_summary(distances),
+        "average_visited_count": f"{average_visited:.6f}",
+        "total_runtime_seconds": f"{total_seconds:.9f}",
+        "average_runtime_seconds": f"{average_seconds:.9f}",
+        "status": status,
+    }
+
+
+def _skipped_row(case: Dict[str, Any], algorithm_name: str, reason: str) -> Dict[str, Any]:
+    n = case["num_nodes"]
+    return {
+        "test_case": case["name"],
+        "num_nodes": str(n),
+        "density": f"{case['density']:.4f}",
+        "allow_negative": str(bool(case["allow_negative"])).lower(),
+        "query_count": str(case["query_count"]),
+        "algorithm": algorithm_name,
+        "average_distance_summary": "SKIPPED",
+        "average_visited_count": "-",
+        "total_runtime_seconds": "-",
+        "average_runtime_seconds": "-",
+        "status": reason,
+    }
 
 
 def _run_benchmark() -> List[Dict[str, Any]]:
-    cases = create_test_cases()
     rows: List[Dict[str, Any]] = []
-
-    for case in cases:
-        n = case["num_nodes"]
-        d = case["density"]
+    for case in create_test_cases():
+        num_nodes = case["num_nodes"]
         edges = case["edges"]
-        src = case["source"]
-        tgt = case["target"]
-        m = len(edges)
+        queries: List[Tuple[int, int]] = list(case["queries"])
+        query_count = int(case["query_count"])
+        benchmark_type = case["benchmark_type"]
+
+        dist_matrix: List[List[float]] = []
+        prep_visited = 0
+        has_negative_cycle = False
+        reference: List[Optional[float]] = []
+        fw_shared: Optional[Tuple[List[List[float]], int, bool, float]] = None
+
+        if benchmark_type == "all_algorithms":
+            t_prep0 = time.perf_counter()
+            dist_matrix, prep_visited, has_negative_cycle = floyd_warshall_preprocess(
+                num_nodes, edges
+            )
+            prep_seconds = time.perf_counter() - t_prep0
+            fw_shared = (dist_matrix, prep_visited, has_negative_cycle, prep_seconds)
+            reference = _reference_per_query(
+                num_nodes, edges, queries, dist_matrix, has_negative_cycle
+            )
 
         for algo_name, algo_fn in ALGORITHMS:
-            skip = should_skip(algo_name, n, d)
-            note = ""
-            if skip:
-                rows.append(
-                    {
-                        "nodes": n,
-                        "density": d,
-                        "edges": m,
-                        "algorithm": algo_name,
-                        "distance": "",
-                        "visited_count": "",
-                        "runtime_ms": "",
-                        "skipped": "yes",
-                        "note": "Skipped by should_skip rule.",
-                    }
-                )
+            skip_reason = _should_skip_algorithm(case, algo_name)
+            if skip_reason is not None:
+                rows.append(_skipped_row(case, algo_name, skip_reason))
                 continue
+            if benchmark_type != "all_algorithms":
+                reference = []
+                has_negative_cycle = False
+            row = _run_normal_algorithm_row(
+                case,
+                algo_name,
+                algo_fn,
+                num_nodes,
+                edges,
+                queries,
+                query_count,
+                reference if benchmark_type == "all_algorithms" else [None] * len(queries),
+                has_negative_cycle if benchmark_type == "all_algorithms" else False,
+            )
+            if benchmark_type != "all_algorithms":
+                row["status"] = "-"
+            rows.append(row)
 
-            t0 = time.perf_counter()
-            distance, visited = algo_fn(n, edges, src, tgt)
-            t1 = time.perf_counter()
-            runtime_ms = (t1 - t0) * 1000.0
-
-            dist_str = "" if distance is None else str(int(distance))
+        fw_skip = _should_skip_algorithm(case, "Floyd-Warshall")
+        if fw_skip is not None:
+            rows.append(_skipped_row(case, "Floyd-Warshall", fw_skip))
+        elif benchmark_type == "all_algorithms" and fw_shared is not None:
             rows.append(
-                {
-                    "nodes": n,
-                    "density": d,
-                    "edges": m,
-                    "algorithm": algo_name,
-                    "distance": dist_str,
-                    "visited_count": str(int(visited)),
-                    "runtime_ms": f"{runtime_ms:.6f}",
-                    "skipped": "no",
-                    "note": note,
-                }
+                _run_floyd_warshall_benchmark_row(
+                    case, num_nodes, queries, query_count, fw_shared
+                )
             )
 
     return rows
@@ -99,15 +319,17 @@ def _run_benchmark() -> List[Dict[str, Any]]:
 
 def _write_csv(rows: List[Dict[str, Any]], path: str) -> None:
     fieldnames = [
-        "nodes",
+        "test_case",
+        "num_nodes",
         "density",
-        "edges",
+        "allow_negative",
+        "query_count",
         "algorithm",
-        "distance",
-        "visited_count",
-        "runtime_ms",
-        "skipped",
-        "note",
+        "average_distance_summary",
+        "average_visited_count",
+        "total_runtime_seconds",
+        "average_runtime_seconds",
+        "status",
     ]
     with open(path, "w", newline="", encoding="utf-8") as f:
         w = csv.DictWriter(f, fieldnames=fieldnames)
@@ -117,70 +339,81 @@ def _write_csv(rows: List[Dict[str, Any]], path: str) -> None:
 
 
 def _print_table(rows: List[Dict[str, Any]]) -> None:
-    header = "| Nodes | Density | Edges | Algorithm | Distance | Visited Count | Runtime ms |"
-    sep = "|-------|---------|-------|-----------|----------|---------------|------------|"
+    header = (
+        "| test_case | n | density | allow_neg | Q | algorithm | avg_dist | avg_vis | "
+        "t_total_s | t_avg_s | status |"
+    )
     print(header)
-    print(sep)
+    print("|" + "-" * (len(header) - 2) + "|")
     for r in rows:
-        if r["skipped"] == "yes":
-            print(
-                f"| {r['nodes']:5d} | {r['density']:7.2f} | {r['edges']:5d} | "
-                f"{r['algorithm'][:24]:24s} | {'':9s} | {'':13s} | {'':10s} |"
-            )
-        else:
-            print(
-                f"| {r['nodes']:5d} | {r['density']:7.2f} | {r['edges']:5d} | "
-                f"{r['algorithm'][:24]:24s} | {r['distance']:>9s} | {r['visited_count']:>13s} | "
-                f"{float(r['runtime_ms']):10.4f} |"
-            )
+        tc = r["test_case"][:22] + ("…" if len(r["test_case"]) > 22 else "")
+        an = r["allow_negative"]
+        st = r["status"][:40] + ("…" if len(r["status"]) > 40 else "")
+        print(
+            f"| {tc:22s} | {r['num_nodes']:>3s} | {r['density']:>7s} | "
+            f"{an:>9s} | {r['query_count']:>2s} | "
+            f"{r['algorithm'][:22]:22s} | {r['average_distance_summary'][:16]:16s} | "
+            f"{r['average_visited_count'][:10]:10s} | {r['total_runtime_seconds'][:11]:11s} | "
+            f"{r['average_runtime_seconds'][:11]:11s} | {st:42s} |"
+        )
 
 
 def _summarize(rows: List[Dict[str, Any]]) -> None:
-    """Per (nodes, density, edges) group: fastest runtime and lowest visited_count."""
-    groups: Dict[Tuple[int, float, int], List[Dict[str, Any]]] = defaultdict(list)
+    groups: Dict[Tuple[str, int, str], List[Dict[str, Any]]] = defaultdict(list)
     for r in rows:
-        if r["skipped"] != "no":
+        if r["average_runtime_seconds"] == "-":
             continue
-        key = (int(r["nodes"]), float(r["density"]), int(r["edges"]))
+        key = (r["test_case"], int(r["num_nodes"]), r["algorithm"])
         groups[key].append(r)
 
     print()
-    print("=== Per test case: fastest algorithm (by runtime) ===")
+    print("=== Fastest average runtime per (test_case, algorithm) ===")
     for key in sorted(groups.keys()):
-        n, den, m = key
-        best = min(groups[key], key=lambda x: float(x["runtime_ms"]))
+        best = min(groups[key], key=lambda x: float(x["average_runtime_seconds"]))
         print(
-            f"  nodes={n}, density={den:.2f}, |E|={m}: "
-            f"{best['algorithm']} ({best['runtime_ms']} ms)"
+            f"  {key[0]} / {key[1]} / {key[2]}: "
+            f"{best['average_runtime_seconds']} s avg"
         )
 
     print()
-    print("=== Per test case: lowest visited_count ===")
-    for key in sorted(groups.keys()):
-        n, den, m = key
-        best = min(groups[key], key=lambda x: int(x["visited_count"]))
-        print(
-            f"  nodes={n}, density={den:.2f}, |E|={m}: "
-            f"{best['algorithm']} (visited={best['visited_count']})"
-        )
-
-    print()
-    print("=== Report notes (dense vs sparse, Floyd-Warshall) ===")
+    print("=== Notes ===")
     print(
-        "- Floyd-Warshall costs Theta(V^3) time and Theta(V^2) memory for the "
-        "distance matrix; it does not benefit from sparse edge lists, so it "
-        "becomes prohibitive on large dense instances (hence the skip rule "
-        "for V > 250 in this benchmark)."
+        "- EcoRoute motivating scenario: shortest-path distance is interpreted as "
+        "energy cost in kWh in the report narrative."
     )
     print(
-        "- On sparse graphs (low density), algorithms that scan only existing "
-        "edges or use heaps often outperform matrix-based O(V^2) scans per step, "
-        "especially when V grows."
+        "- Negative edge weights represent regenerative braking or downhill "
+        "energy recovery in that interpretation."
     )
     print(
-        "- Visited-count definitions differ by algorithm family; interpret "
-        "comparisons as qualitative workload indicators, not a single universal "
-        "notion of work."
+        "- Code and benchmark_results.csv stay graph-theoretic and generic "
+        "(distance, visited_count, runtime, status) for clarity and reproducibility."
+    )
+    print(
+        "- Floyd-Warshall: floyd_warshall_preprocess runs once per graph; all queries "
+        "read from the distance matrix. Reported total_runtime_seconds includes "
+        "preprocessing plus lookup time; average_runtime_seconds divides that total "
+        "by query_count. After the matrix is built, each source-target lookup is O(1)."
+    )
+    print(
+        "- Dijkstra-based algorithms are not guaranteed correct with negative edge "
+        "weights; negative-edge cases are limitation demos."
+    )
+    print(
+        "- Bellman-Ford and Floyd-Warshall demonstrate negative-weight support and "
+        "negative-cycle detection."
+    )
+    print(
+        "- large_scalability cases run only Dijkstra List and Bidirectional Dijkstra List; "
+        "other algorithms are skipped but still appear in the console table and CSV."
+    )
+    print(
+        "- Skipped rows use average_distance_summary=SKIPPED, average_visited_count=-, "
+        "runtime fields=-, and status=skip reason."
+    )
+    print(
+        "- Visited-count semantics differ by algorithm; treat comparisons as coarse "
+        "workload indicators."
     )
 
 
@@ -193,41 +426,46 @@ def _optional_plots(rows: List[Dict[str, Any]]) -> None:
     except ImportError:
         return
 
-    active = [r for r in rows if r["skipped"] == "no"]
+    active = [r for r in rows if r["average_runtime_seconds"] != "-"]
     if not active:
         return
 
-    # Series: for each algorithm, x = nodes, y = runtime (one point per case)
     by_algo: Dict[str, List[Tuple[int, float]]] = defaultdict(list)
-    by_algo_v: Dict[str, List[Tuple[int, int]]] = defaultdict(list)
+    by_algo_v: Dict[str, List[Tuple[int, float]]] = defaultdict(list)
     for r in active:
-        by_algo[r["algorithm"]].append((int(r["nodes"]), float(r["runtime_ms"])))
-        by_algo_v[r["algorithm"]].append((int(r["nodes"]), int(r["visited_count"])))
+        try:
+            n = int(r["num_nodes"])
+            t_avg = float(r["average_runtime_seconds"])
+            v_avg = float(r["average_visited_count"])
+        except ValueError:
+            continue
+        by_algo[r["algorithm"]].append((n, t_avg * 1000.0))
+        by_algo_v[r["algorithm"]].append((n, v_avg))
 
-    fig1, ax1 = plt.subplots(figsize=(9, 5))
+    fig1, ax1 = plt.subplots(figsize=(10, 5))
     for name, pts in sorted(by_algo.items()):
         pts.sort(key=lambda t: t[0])
         xs = [p[0] for p in pts]
         ys = [p[1] for p in pts]
-        ax1.plot(xs, ys, marker="o", label=name)
-    ax1.set_xlabel("Nodes")
-    ax1.set_ylabel("Runtime (ms)")
-    ax1.set_title("Runtime vs nodes (all densities shown as separate x points)")
+        ax1.plot(xs, ys, marker="o", label=name, linestyle="-", alpha=0.85)
+    ax1.set_xlabel("num_nodes")
+    ax1.set_ylabel("average_runtime (ms)")
+    ax1.set_title("Average runtime per query vs num_nodes (from benchmark_results schema)")
     ax1.legend(fontsize=7, loc="upper left")
     ax1.grid(True, linestyle=":", alpha=0.6)
     fig1.tight_layout()
     fig1.savefig("runtime_vs_nodes.png", dpi=150)
     plt.close(fig1)
 
-    fig2, ax2 = plt.subplots(figsize=(9, 5))
+    fig2, ax2 = plt.subplots(figsize=(10, 5))
     for name, pts in sorted(by_algo_v.items()):
         pts.sort(key=lambda t: t[0])
         xs = [p[0] for p in pts]
         ys = [p[1] for p in pts]
-        ax2.plot(xs, ys, marker="o", label=name)
-    ax2.set_xlabel("Nodes")
-    ax2.set_ylabel("Visited count")
-    ax2.set_title("Visited count vs nodes")
+        ax2.plot(xs, ys, marker="o", label=name, linestyle="-", alpha=0.85)
+    ax2.set_xlabel("num_nodes")
+    ax2.set_ylabel("average_visited_count")
+    ax2.set_title("Average visited count vs num_nodes")
     ax2.legend(fontsize=7, loc="upper left")
     ax2.grid(True, linestyle=":", alpha=0.6)
     fig2.tight_layout()
