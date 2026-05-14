@@ -1,127 +1,121 @@
 test_case,num_nodes,density,allow_negative,query_count,algorithm,average_distance_summary,average_visited_count,total_runtime_seconds,average_runtime_seconds,status
-all_nonneg_n50_d0.02,50,0.0200,false,6,Dijkstra List,mean=229; unreachable=1,21.500000,0.000070900,0.000011817,Correct
-all_nonneg_n50_d0.02,50,0.0200,false,6,Dijkstra Matrix,mean=229; unreachable=1,21.500000,0.000473300,0.000078883,Correct
-all_nonneg_n50_d0.02,50,0.0200,false,6,Bidirectional Dijkstra List,mean=229; unreachable=1,23.166667,0.000100900,0.000016817,Correct
-all_nonneg_n50_d0.02,50,0.0200,false,6,Bidirectional Dijkstra Matrix,mean=229; unreachable=1,23.333333,0.000869500,0.000144917,Correct
-all_nonneg_n50_d0.02,50,0.0200,false,6,Bellman-Ford,mean=229; unreachable=1,196.000000,0.000068000,0.000011333,Correct
-all_nonneg_n50_d0.02,50,0.0200,false,6,Floyd-Warshall,mean=229; unreachable=1,20833.333333,0.005659500,0.000943250,Reference
-all_nonneg_n50_d0.10,50,0.1000,false,6,Dijkstra List,mean=14,88.000000,0.000174000,0.000029000,Correct
-all_nonneg_n50_d0.10,50,0.1000,false,6,Dijkstra Matrix,mean=14,88.000000,0.000501400,0.000083567,Correct
-all_nonneg_n50_d0.10,50,0.1000,false,6,Bidirectional Dijkstra List,mean=14,51.500000,0.000203200,0.000033867,Correct
-all_nonneg_n50_d0.10,50,0.1000,false,6,Bidirectional Dijkstra Matrix,mean=14,51.500000,0.000574400,0.000095733,Correct
-all_nonneg_n50_d0.10,50,0.1000,false,6,Bellman-Ford,mean=14,1796.666667,0.000662300,0.000110383,Correct
-all_nonneg_n50_d0.10,50,0.1000,false,6,Floyd-Warshall,mean=14,20833.333333,0.010892600,0.001815433,Reference
-all_nonneg_n50_d0.25,50,0.2500,false,6,Dijkstra List,mean=10.17,350.333333,0.000394900,0.000065817,Correct
-all_nonneg_n50_d0.25,50,0.2500,false,6,Dijkstra Matrix,mean=10.17,350.333333,0.000893400,0.000148900,Correct
-all_nonneg_n50_d0.25,50,0.2500,false,6,Bidirectional Dijkstra List,mean=10.17,146.500000,0.000454300,0.000075717,Correct
-all_nonneg_n50_d0.25,50,0.2500,false,6,Bidirectional Dijkstra Matrix,mean=10.17,146.500000,0.000880800,0.000146800,Correct
-all_nonneg_n50_d0.25,50,0.2500,false,6,Bellman-Ford,mean=10.17,3570.000000,0.001294700,0.000215783,Correct
-all_nonneg_n50_d0.25,50,0.2500,false,6,Floyd-Warshall,mean=10.17,20833.333333,0.012101300,0.002016883,Reference
-all_nonneg_n100_d0.02,100,0.0200,false,6,Dijkstra List,mean=58.17,111.500000,0.000237700,0.000039617,Correct
-all_nonneg_n100_d0.02,100,0.0200,false,6,Dijkstra Matrix,mean=58.17,111.500000,0.002238900,0.000373150,Correct
-all_nonneg_n100_d0.02,100,0.0200,false,6,Bidirectional Dijkstra List,mean=58.17,47.333333,0.000240300,0.000040050,Correct
-all_nonneg_n100_d0.02,100,0.0200,false,6,Bidirectional Dijkstra Matrix,mean=58.17,47.333333,0.001991700,0.000331950,Correct
-all_nonneg_n100_d0.02,100,0.0200,false,6,Bellman-Ford,mean=58.17,1551.000000,0.000647600,0.000107933,Correct
-all_nonneg_n100_d0.02,100,0.0200,false,6,Floyd-Warshall,mean=58.17,166666.666667,0.059446300,0.009907717,Reference
-all_nonneg_n100_d0.10,100,0.1000,false,6,Dijkstra List,mean=13,628.333333,0.000877600,0.000146267,Correct
-all_nonneg_n100_d0.10,100,0.1000,false,6,Dijkstra Matrix,mean=13,628.333333,0.002828900,0.000471483,Correct
-all_nonneg_n100_d0.10,100,0.1000,false,6,Bidirectional Dijkstra List,mean=13,150.166667,0.000741700,0.000123617,Correct
-all_nonneg_n100_d0.10,100,0.1000,false,6,Bidirectional Dijkstra Matrix,mean=13,150.166667,0.001825500,0.000304250,Correct
-all_nonneg_n100_d0.10,100,0.1000,false,6,Bellman-Ford,mean=13,7260.000000,0.002547000,0.000424500,Correct
-all_nonneg_n100_d0.10,100,0.1000,false,6,Floyd-Warshall,mean=13,166666.666667,0.087951100,0.014658517,Reference
-all_nonneg_n100_d0.25,100,0.2500,false,6,Dijkstra List,mean=6.167,1513.500000,0.001417500,0.000236250,Correct
-all_nonneg_n100_d0.25,100,0.2500,false,6,Dijkstra Matrix,mean=6.167,1513.500000,0.003149600,0.000524933,Correct
-all_nonneg_n100_d0.25,100,0.2500,false,6,Bidirectional Dijkstra List,mean=6.167,281.666667,0.002379500,0.000396583,Correct
-all_nonneg_n100_d0.25,100,0.2500,false,6,Bidirectional Dijkstra Matrix,mean=6.167,281.666667,0.002310300,0.000385050,Correct
-all_nonneg_n100_d0.25,100,0.2500,false,6,Bellman-Ford,mean=6.167,18150.000000,0.006123000,0.001020500,Correct
-all_nonneg_n100_d0.25,100,0.2500,false,6,Floyd-Warshall,mean=6.167,166666.666667,0.093802300,0.015633717,Reference
-all_nonneg_n250_d0.02,250,0.0200,false,6,Dijkstra List,mean=26.67,596.500000,0.001077100,0.000179517,Correct
-all_nonneg_n250_d0.02,250,0.0200,false,6,Dijkstra Matrix,mean=26.67,596.500000,0.011162400,0.001860400,Correct
-all_nonneg_n250_d0.02,250,0.0200,false,6,Bidirectional Dijkstra List,mean=26.67,115.666667,0.000933900,0.000155650,Correct
-all_nonneg_n250_d0.02,250,0.0200,false,6,Bidirectional Dijkstra Matrix,mean=26.67,115.666667,0.006644100,0.001107350,Correct
-all_nonneg_n250_d0.02,250,0.0200,false,6,Bellman-Ford,mean=26.67,11620.000000,0.004069400,0.000678233,Correct
-all_nonneg_n250_d0.02,250,0.0200,false,6,Floyd-Warshall,mean=26.67,2604166.666667,1.233899700,0.205649950,Reference
-all_nonneg_n250_d0.10,250,0.1000,false,6,Dijkstra List,mean=7.667,4122.666667,0.005667200,0.000944533,Correct
-all_nonneg_n250_d0.10,250,0.1000,false,6,Dijkstra Matrix,mean=7.667,4122.666667,0.017305700,0.002884283,Correct
-all_nonneg_n250_d0.10,250,0.1000,false,6,Bidirectional Dijkstra List,mean=7.667,602.333333,0.006544500,0.001090750,Correct
-all_nonneg_n250_d0.10,250,0.1000,false,6,Bidirectional Dijkstra Matrix,mean=7.667,602.333333,0.009605700,0.001600950,Correct
-all_nonneg_n250_d0.10,250,0.1000,false,6,Bellman-Ford,mean=7.667,47725.000000,0.016254900,0.002709150,Correct
-all_nonneg_n250_d0.10,250,0.1000,false,6,Floyd-Warshall,mean=7.667,2604166.666667,1.510083800,0.251680633,Reference
-all_nonneg_n250_d0.25,250,0.2500,false,6,Dijkstra List,mean=4.167,8136.500000,0.020829700,0.003471617,Correct
-all_nonneg_n250_d0.25,250,0.2500,false,6,Dijkstra Matrix,mean=4.167,8136.500000,0.020399000,0.003399833,Correct
-all_nonneg_n250_d0.25,250,0.2500,false,6,Bidirectional Dijkstra List,mean=4.167,475.166667,0.016108500,0.002684750,Correct
-all_nonneg_n250_d0.25,250,0.2500,false,6,Bidirectional Dijkstra Matrix,mean=4.167,475.166667,0.015269900,0.002544983,Correct
-all_nonneg_n250_d0.25,250,0.2500,false,6,Bellman-Ford,mean=4.167,103746.666667,0.037511800,0.006251967,Correct
-all_nonneg_n250_d0.25,250,0.2500,false,6,Floyd-Warshall,mean=4.167,2604166.666667,1.556285400,0.259380900,Reference
-all_nonneg_n1000_d0.02,1000,0.0200,false,6,Dijkstra List,mean=11.5,13855.500000,0.025199400,0.004199900,Correct
-all_nonneg_n1000_d0.02,1000,0.0200,false,6,Dijkstra Matrix,SKIPPED,-,-,-,Skipped due to O(V^2) matrix representation limits
-all_nonneg_n1000_d0.02,1000,0.0200,false,6,Bidirectional Dijkstra List,mean=11.5,963.000000,0.032319800,0.005386633,Correct
-all_nonneg_n1000_d0.02,1000,0.0200,false,6,Bidirectional Dijkstra Matrix,SKIPPED,-,-,-,Skipped due to O(V^2) matrix representation limits
-all_nonneg_n1000_d0.02,1000,0.0200,false,6,Bellman-Ford,SKIPPED,-,-,-,Skipped due to O(VE) scalability limit on large graphs
-all_nonneg_n1000_d0.02,1000,0.0200,false,6,Floyd-Warshall,SKIPPED,-,-,-,Skipped due to O(V^3) matrix memory/runtime cost
-all_nonneg_n1000_d0.10,1000,0.1000,false,6,Dijkstra List,mean=4,53167.166667,0.145669200,0.024278200,Correct
-all_nonneg_n1000_d0.10,1000,0.1000,false,6,Dijkstra Matrix,SKIPPED,-,-,-,Skipped due to O(V^2) matrix representation limits
-all_nonneg_n1000_d0.10,1000,0.1000,false,6,Bidirectional Dijkstra List,mean=4,1591.333333,0.193780200,0.032296700,Correct
-all_nonneg_n1000_d0.10,1000,0.1000,false,6,Bidirectional Dijkstra Matrix,SKIPPED,-,-,-,Skipped due to O(V^2) matrix representation limits
-all_nonneg_n1000_d0.10,1000,0.1000,false,6,Bellman-Ford,SKIPPED,-,-,-,Skipped due to O(VE) scalability limit on large graphs
-all_nonneg_n1000_d0.10,1000,0.1000,false,6,Floyd-Warshall,SKIPPED,-,-,-,Skipped due to O(V^3) matrix memory/runtime cost
-all_nonneg_n1000_d0.25,1000,0.2500,false,6,Dijkstra List,mean=3.333,207631.000000,0.420351100,0.070058517,Correct
-all_nonneg_n1000_d0.25,1000,0.2500,false,6,Dijkstra Matrix,SKIPPED,-,-,-,Skipped due to O(V^2) matrix representation limits
-all_nonneg_n1000_d0.25,1000,0.2500,false,6,Bidirectional Dijkstra List,mean=3.333,4456.833333,0.476115100,0.079352517,Correct
-all_nonneg_n1000_d0.25,1000,0.2500,false,6,Bidirectional Dijkstra Matrix,SKIPPED,-,-,-,Skipped due to O(V^2) matrix representation limits
-all_nonneg_n1000_d0.25,1000,0.2500,false,6,Bellman-Ford,SKIPPED,-,-,-,Skipped due to O(VE) scalability limit on large graphs
-all_nonneg_n1000_d0.25,1000,0.2500,false,6,Floyd-Warshall,SKIPPED,-,-,-,Skipped due to O(V^3) matrix memory/runtime cost
-all_acyclic_neg_n30_d0.05,30,0.0500,true,6,Dijkstra List,unreachable=6,0.666667,0.000024900,0.000004150,Not guaranteed with negative weights / limitation demo
-all_acyclic_neg_n30_d0.05,30,0.0500,true,6,Dijkstra Matrix,unreachable=6,0.666667,0.000048400,0.000008067,Not guaranteed with negative weights / limitation demo
-all_acyclic_neg_n30_d0.05,30,0.0500,true,6,Bidirectional Dijkstra List,unreachable=6,1.333333,0.000028900,0.000004817,Not guaranteed with negative weights / limitation demo
-all_acyclic_neg_n30_d0.05,30,0.0500,true,6,Bidirectional Dijkstra Matrix,unreachable=6,2.666667,0.000131600,0.000021933,Not guaranteed with negative weights / limitation demo
-all_acyclic_neg_n30_d0.05,30,0.0500,true,6,Bellman-Ford,unreachable=6,77.000000,0.000016400,0.000002733,Reference
-all_acyclic_neg_n30_d0.05,30,0.0500,true,6,Floyd-Warshall,unreachable=6,4500.000000,0.000814000,0.000135667,Reference
-all_acyclic_neg_n30_d0.10,30,0.1000,true,6,Dijkstra List,unreachable=6,1.333333,0.000021700,0.000003617,Not guaranteed with negative weights / limitation demo
-all_acyclic_neg_n30_d0.10,30,0.1000,true,6,Dijkstra Matrix,unreachable=6,1.333333,0.000058200,0.000009700,Not guaranteed with negative weights / limitation demo
-all_acyclic_neg_n30_d0.10,30,0.1000,true,6,Bidirectional Dijkstra List,unreachable=6,2.166667,0.000040500,0.000006750,Not guaranteed with negative weights / limitation demo
-all_acyclic_neg_n30_d0.10,30,0.1000,true,6,Bidirectional Dijkstra Matrix,unreachable=6,6.166667,0.000191200,0.000031867,Not guaranteed with negative weights / limitation demo
-all_acyclic_neg_n30_d0.10,30,0.1000,true,6,Bellman-Ford,unreachable=6,154.000000,0.000028300,0.000004717,Reference
-all_acyclic_neg_n30_d0.10,30,0.1000,true,6,Floyd-Warshall,unreachable=6,4500.000000,0.000848700,0.000141450,Reference
-all_acyclic_neg_n50_d0.05,50,0.0500,true,6,Dijkstra List,mean=10; unreachable=5,2.666667,0.000038200,0.000006367,Not guaranteed with negative weights / limitation demo
-all_acyclic_neg_n50_d0.05,50,0.0500,true,6,Dijkstra Matrix,mean=10; unreachable=5,2.666667,0.000151300,0.000025217,Not guaranteed with negative weights / limitation demo
-all_acyclic_neg_n50_d0.05,50,0.0500,true,6,Bidirectional Dijkstra List,mean=10; unreachable=5,4.333333,0.000070300,0.000011717,Not guaranteed with negative weights / limitation demo
-all_acyclic_neg_n50_d0.05,50,0.0500,true,6,Bidirectional Dijkstra Matrix,mean=10; unreachable=5,7.833333,0.000393400,0.000065567,Not guaranteed with negative weights / limitation demo
-all_acyclic_neg_n50_d0.05,50,0.0500,true,6,Bellman-Ford,mean=10; unreachable=5,254.166667,0.000056400,0.000009400,Reference
-all_acyclic_neg_n50_d0.05,50,0.0500,true,6,Floyd-Warshall,mean=10; unreachable=5,20833.333333,0.004500000,0.000750000,Reference
-all_acyclic_neg_n50_d0.10,50,0.1000,true,6,Dijkstra List,mean=19.33; unreachable=3,16.833333,0.000076200,0.000012700,Not guaranteed with negative weights / limitation demo
-all_acyclic_neg_n50_d0.10,50,0.1000,true,6,Dijkstra Matrix,mean=19.33; unreachable=3,16.833333,0.000274300,0.000045717,Not guaranteed with negative weights / limitation demo
-all_acyclic_neg_n50_d0.10,50,0.1000,true,6,Bidirectional Dijkstra List,mean=19.33; unreachable=3,13.500000,0.000116600,0.000019433,Not guaranteed with negative weights / limitation demo
-all_acyclic_neg_n50_d0.10,50,0.1000,true,6,Bidirectional Dijkstra Matrix,mean=19.33; unreachable=3,23.666667,0.000584700,0.000097450,Not guaranteed with negative weights / limitation demo
-all_acyclic_neg_n50_d0.10,50,0.1000,true,6,Bellman-Ford,mean=19.33; unreachable=3,569.333333,0.000178900,0.000029817,Reference
-all_acyclic_neg_n50_d0.10,50,0.1000,true,6,Floyd-Warshall,mean=19.33; unreachable=3,20833.333333,0.005049100,0.000841517,Reference
-all_neg_cycle_toy,4,0.3500,true,6,Dijkstra List,mean=1.2; unreachable=1,3.500000,0.000013700,0.000002283,Not guaranteed with negative weights / limitation demo
-all_neg_cycle_toy,4,0.3500,true,6,Dijkstra Matrix,mean=1.2; unreachable=1,2.000000,0.000016700,0.000002783,Not guaranteed with negative weights / limitation demo
-all_neg_cycle_toy,4,0.3500,true,6,Bidirectional Dijkstra List,mean=1.2; unreachable=1,1.833333,0.000015600,0.000002600,Not guaranteed with negative weights / limitation demo
-all_neg_cycle_toy,4,0.3500,true,6,Bidirectional Dijkstra Matrix,mean=1.2; unreachable=1,2.166667,0.000030800,0.000005133,Not guaranteed with negative weights / limitation demo
-all_neg_cycle_toy,4,0.3500,true,6,Bellman-Ford,unreachable=1; neg_inf=5,24.000000,0.000015300,0.000002550,Negative cycle detected
-all_neg_cycle_toy,4,0.3500,true,6,Floyd-Warshall,mean=-3.6; unreachable=1,10.666667,0.000011500,0.000001917,Negative cycle detected
-scale_large_n800_d0.0100,800,0.0100,false,6,Dijkstra List,mean=22,3574.833333,0.009361500,0.001560250,-
-scale_large_n800_d0.0100,800,0.0100,false,6,Dijkstra Matrix,SKIPPED,-,-,-,Skipped due to O(V^2) matrix memory/runtime cost on large graph
-scale_large_n800_d0.0100,800,0.0100,false,6,Bidirectional Dijkstra List,mean=22,308.833333,0.014450900,0.002408483,-
-scale_large_n800_d0.0100,800,0.0100,false,6,Bidirectional Dijkstra Matrix,SKIPPED,-,-,-,Skipped due to O(V^2) matrix memory/runtime cost on large graph
-scale_large_n800_d0.0100,800,0.0100,false,6,Bellman-Ford,SKIPPED,-,-,-,Skipped due to O(VE) scalability on large graph
-scale_large_n800_d0.0100,800,0.0100,false,6,Floyd-Warshall,SKIPPED,-,-,-,Skipped due to O(V^3) matrix memory/runtime cost
-scale_large_n1200_d0.0100,1200,0.0100,false,6,Dijkstra List,mean=15.83,7538.166667,0.017053200,0.002842200,-
-scale_large_n1200_d0.0100,1200,0.0100,false,6,Dijkstra Matrix,SKIPPED,-,-,-,Skipped due to O(V^2) matrix representation limits
-scale_large_n1200_d0.0100,1200,0.0100,false,6,Bidirectional Dijkstra List,mean=15.83,632.000000,0.025716500,0.004286083,-
-scale_large_n1200_d0.0100,1200,0.0100,false,6,Bidirectional Dijkstra Matrix,SKIPPED,-,-,-,Skipped due to O(V^2) matrix representation limits
-scale_large_n1200_d0.0100,1200,0.0100,false,6,Bellman-Ford,SKIPPED,-,-,-,Skipped due to O(VE) scalability limit on large graphs
-scale_large_n1200_d0.0100,1200,0.0100,false,6,Floyd-Warshall,SKIPPED,-,-,-,Skipped due to O(V^3) matrix memory/runtime cost
-scale_large_n2000_d0.0050,2000,0.0050,false,6,Dijkstra List,mean=16.33,6974.666667,0.019069200,0.003178200,-
-scale_large_n2000_d0.0050,2000,0.0050,false,6,Dijkstra Matrix,SKIPPED,-,-,-,Skipped due to O(V^2) matrix representation limits
-scale_large_n2000_d0.0050,2000,0.0050,false,6,Bidirectional Dijkstra List,mean=16.33,600.833333,0.030445700,0.005074283,-
-scale_large_n2000_d0.0050,2000,0.0050,false,6,Bidirectional Dijkstra Matrix,SKIPPED,-,-,-,Skipped due to O(V^2) matrix representation limits
-scale_large_n2000_d0.0050,2000,0.0050,false,6,Bellman-Ford,SKIPPED,-,-,-,Skipped due to O(VE) scalability limit on large graphs
-scale_large_n2000_d0.0050,2000,0.0050,false,6,Floyd-Warshall,SKIPPED,-,-,-,Skipped due to O(V^3) matrix memory/runtime cost
-scale_large_n3000_d0.0020,3000,0.0020,false,6,Dijkstra List,mean=28.17,6567.666667,0.026735100,0.004455850,-
-scale_large_n3000_d0.0020,3000,0.0020,false,6,Dijkstra Matrix,SKIPPED,-,-,-,Skipped due to O(V^2) matrix representation limits
-scale_large_n3000_d0.0020,3000,0.0020,false,6,Bidirectional Dijkstra List,mean=28.17,623.333333,0.022200100,0.003700017,-
-scale_large_n3000_d0.0020,3000,0.0020,false,6,Bidirectional Dijkstra Matrix,SKIPPED,-,-,-,Skipped due to O(V^2) matrix representation limits
-scale_large_n3000_d0.0020,3000,0.0020,false,6,Bellman-Ford,SKIPPED,-,-,-,Skipped due to O(VE) scalability limit on large graphs
-scale_large_n3000_d0.0020,3000,0.0020,false,6,Floyd-Warshall,SKIPPED,-,-,-,Skipped due to O(V^3) matrix memory/runtime cost
+all_nonneg_n50_d0.02,50,0.0200,false,6,Dijkstra List,mean=229; unreachable=1,21.500000,0.000067200,0.000011200,Correct
+all_nonneg_n50_d0.02,50,0.0200,false,6,Dijkstra Matrix,mean=229; unreachable=1,21.500000,0.000410100,0.000068350,Correct
+all_nonneg_n50_d0.02,50,0.0200,false,6,Bidirectional Dijkstra List,mean=229; unreachable=1,23.166667,0.000098500,0.000016417,Correct
+all_nonneg_n50_d0.02,50,0.0200,false,6,Bidirectional Dijkstra Matrix,mean=229; unreachable=1,23.333333,0.000718600,0.000119767,Correct
+all_nonneg_n50_d0.02,50,0.0200,false,6,Bellman-Ford,mean=229; unreachable=1,196.000000,0.000059000,0.000009833,Correct
+all_nonneg_n50_d0.02,50,0.0200,false,6,Floyd-Warshall,mean=229; unreachable=1,20833.333333,0.007374200,0.001229033,Reference
+all_nonneg_n50_d0.10,50,0.1000,false,6,Dijkstra List,mean=14,88.000000,0.000373700,0.000062283,Correct
+all_nonneg_n50_d0.10,50,0.1000,false,6,Dijkstra Matrix,mean=14,88.000000,0.000435200,0.000072533,Correct
+all_nonneg_n50_d0.10,50,0.1000,false,6,Bidirectional Dijkstra List,mean=14,51.500000,0.000281700,0.000046950,Correct
+all_nonneg_n50_d0.10,50,0.1000,false,6,Bidirectional Dijkstra Matrix,mean=14,51.500000,0.000566100,0.000094350,Correct
+all_nonneg_n50_d0.10,50,0.1000,false,6,Bellman-Ford,mean=14,1796.666667,0.000549800,0.000091633,Correct
+all_nonneg_n50_d0.10,50,0.1000,false,6,Floyd-Warshall,mean=14,20833.333333,0.010476300,0.001746050,Reference
+all_nonneg_n50_d0.25,50,0.2500,false,6,Dijkstra List,mean=10.17,350.333333,0.000463000,0.000077167,Correct
+all_nonneg_n50_d0.25,50,0.2500,false,6,Dijkstra Matrix,mean=10.17,350.333333,0.000747300,0.000124550,Correct
+all_nonneg_n50_d0.25,50,0.2500,false,6,Bidirectional Dijkstra List,mean=10.17,146.500000,0.000544300,0.000090717,Correct
+all_nonneg_n50_d0.25,50,0.2500,false,6,Bidirectional Dijkstra Matrix,mean=10.17,146.500000,0.000855800,0.000142633,Correct
+all_nonneg_n50_d0.25,50,0.2500,false,6,Bellman-Ford,mean=10.17,3570.000000,0.001090000,0.000181667,Correct
+all_nonneg_n50_d0.25,50,0.2500,false,6,Floyd-Warshall,mean=10.17,20833.333333,0.012655100,0.002109183,Reference
+all_nonneg_n100_d0.02,100,0.0200,false,6,Dijkstra List,mean=58.17,111.500000,0.000261500,0.000043583,Correct
+all_nonneg_n100_d0.02,100,0.0200,false,6,Dijkstra Matrix,mean=58.17,111.500000,0.002092700,0.000348783,Correct
+all_nonneg_n100_d0.02,100,0.0200,false,6,Bidirectional Dijkstra List,mean=58.17,47.333333,0.000378000,0.000063000,Correct
+all_nonneg_n100_d0.02,100,0.0200,false,6,Bidirectional Dijkstra Matrix,mean=58.17,47.333333,0.002031300,0.000338550,Correct
+all_nonneg_n100_d0.02,100,0.0200,false,6,Bellman-Ford,mean=58.17,1551.000000,0.000550500,0.000091750,Correct
+all_nonneg_n100_d0.02,100,0.0200,false,6,Floyd-Warshall,mean=58.17,166666.666667,0.058154200,0.009692367,Reference
+all_nonneg_n100_d0.10,100,0.1000,false,6,Dijkstra List,mean=13,628.333333,0.000770700,0.000128450,Correct
+all_nonneg_n100_d0.10,100,0.1000,false,6,Dijkstra Matrix,mean=13,628.333333,0.002576400,0.000429400,Correct
+all_nonneg_n100_d0.10,100,0.1000,false,6,Bidirectional Dijkstra List,mean=13,150.166667,0.000657600,0.000109600,Correct
+all_nonneg_n100_d0.10,100,0.1000,false,6,Bidirectional Dijkstra Matrix,mean=13,150.166667,0.001858700,0.000309783,Correct
+all_nonneg_n100_d0.10,100,0.1000,false,6,Bellman-Ford,mean=13,7260.000000,0.002179200,0.000363200,Correct
+all_nonneg_n100_d0.10,100,0.1000,false,6,Floyd-Warshall,mean=13,166666.666667,0.087433700,0.014572283,Reference
+all_nonneg_n100_d0.25,100,0.2500,false,6,Dijkstra List,mean=6.167,1513.500000,0.001486700,0.000247783,Correct
+all_nonneg_n100_d0.25,100,0.2500,false,6,Dijkstra Matrix,mean=6.167,1513.500000,0.002923600,0.000487267,Correct
+all_nonneg_n100_d0.25,100,0.2500,false,6,Bidirectional Dijkstra List,mean=6.167,281.666667,0.002334200,0.000389033,Correct
+all_nonneg_n100_d0.25,100,0.2500,false,6,Bidirectional Dijkstra Matrix,mean=6.167,281.666667,0.002589700,0.000431617,Correct
+all_nonneg_n100_d0.25,100,0.2500,false,6,Bellman-Ford,mean=6.167,18150.000000,0.005611600,0.000935267,Correct
+all_nonneg_n100_d0.25,100,0.2500,false,6,Floyd-Warshall,mean=6.167,166666.666667,0.088405000,0.014734167,Reference
+all_nonneg_n250_d0.02,250,0.0200,false,6,Dijkstra List,mean=26.67,596.500000,0.000975200,0.000162533,Correct
+all_nonneg_n250_d0.02,250,0.0200,false,6,Dijkstra Matrix,mean=26.67,596.500000,0.010099200,0.001683200,Correct
+all_nonneg_n250_d0.02,250,0.0200,false,6,Bidirectional Dijkstra List,mean=26.67,115.666667,0.000927700,0.000154617,Correct
+all_nonneg_n250_d0.02,250,0.0200,false,6,Bidirectional Dijkstra Matrix,mean=26.67,115.666667,0.009034200,0.001505700,Correct
+all_nonneg_n250_d0.02,250,0.0200,false,6,Bellman-Ford,mean=26.67,11620.000000,0.003771400,0.000628567,Correct
+all_nonneg_n250_d0.02,250,0.0200,false,6,Floyd-Warshall,mean=26.67,2604166.666667,1.156147800,0.192691300,Reference
+all_nonneg_n250_d0.10,250,0.1000,false,6,Dijkstra List,mean=7.667,4122.666667,0.004732500,0.000788750,Correct
+all_nonneg_n250_d0.10,250,0.1000,false,6,Dijkstra Matrix,mean=7.667,4122.666667,0.016986400,0.002831067,Correct
+all_nonneg_n250_d0.10,250,0.1000,false,6,Bidirectional Dijkstra List,mean=7.667,602.333333,0.006472700,0.001078783,Correct
+all_nonneg_n250_d0.10,250,0.1000,false,6,Bidirectional Dijkstra Matrix,mean=7.667,602.333333,0.014890100,0.002481683,Correct
+all_nonneg_n250_d0.10,250,0.1000,false,6,Bellman-Ford,mean=7.667,47725.000000,0.014606600,0.002434433,Correct
+all_nonneg_n250_d0.10,250,0.1000,false,6,Floyd-Warshall,mean=7.667,2604166.666667,1.438750300,0.239791717,Reference
+all_nonneg_n250_d0.25,250,0.2500,false,6,Dijkstra List,mean=4.167,8136.500000,0.020571100,0.003428517,Correct
+all_nonneg_n250_d0.25,250,0.2500,false,6,Dijkstra Matrix,mean=4.167,8136.500000,0.019644900,0.003274150,Correct
+all_nonneg_n250_d0.25,250,0.2500,false,6,Bidirectional Dijkstra List,mean=4.167,475.166667,0.017428400,0.002904733,Correct
+all_nonneg_n250_d0.25,250,0.2500,false,6,Bidirectional Dijkstra Matrix,mean=4.167,475.166667,0.019928600,0.003321433,Correct
+all_nonneg_n250_d0.25,250,0.2500,false,6,Bellman-Ford,mean=4.167,103746.666667,0.030952000,0.005158667,Correct
+all_nonneg_n250_d0.25,250,0.2500,false,6,Floyd-Warshall,mean=4.167,2604166.666667,1.502393200,0.250398867,Reference
+all_nonneg_n500_d0.02,500,0.0200,false,6,Dijkstra List,mean=16.5,2538.666667,0.008233100,0.001372183,Correct
+all_nonneg_n500_d0.02,500,0.0200,false,6,Dijkstra Matrix,mean=16.5,2538.666667,0.051467200,0.008577867,Correct
+all_nonneg_n500_d0.02,500,0.0200,false,6,Bidirectional Dijkstra List,mean=16.5,409.166667,0.022730200,0.003788367,Correct
+all_nonneg_n500_d0.02,500,0.0200,false,6,Bidirectional Dijkstra Matrix,mean=16.5,409.166667,0.031998900,0.005333150,Correct
+all_nonneg_n500_d0.02,500,0.0200,false,6,Bellman-Ford,mean=16.5,44078.333333,0.018521700,0.003086950,Correct
+all_nonneg_n500_d0.02,500,0.0200,false,6,Floyd-Warshall,mean=16.5,20833333.333333,12.718559000,2.119759833,Reference
+all_nonneg_n500_d0.10,500,0.1000,false,6,Dijkstra List,mean=5.667,17042.666667,0.023296400,0.003882733,Correct
+all_nonneg_n500_d0.10,500,0.1000,false,6,Dijkstra Matrix,mean=5.667,17042.666667,0.126803300,0.021133883,Correct
+all_nonneg_n500_d0.10,500,0.1000,false,6,Bidirectional Dijkstra List,mean=5.667,1226.500000,0.047166500,0.007861083,Correct
+all_nonneg_n500_d0.10,500,0.1000,false,6,Bidirectional Dijkstra Matrix,mean=5.667,1226.500000,0.047471400,0.007911900,Correct
+all_nonneg_n500_d0.10,500,0.1000,false,6,Bellman-Ford,mean=5.667,178808.333333,0.078599300,0.013099883,Correct
+all_nonneg_n500_d0.10,500,0.1000,false,6,Floyd-Warshall,mean=5.667,20833333.333333,13.047961800,2.174660300,Reference
+all_nonneg_n500_d0.25,500,0.2500,false,6,Dijkstra List,mean=3.833,48036.500000,0.140523100,0.023420517,Correct
+all_nonneg_n500_d0.25,500,0.2500,false,6,Dijkstra Matrix,mean=3.833,48036.500000,0.127328500,0.021221417,Correct
+all_nonneg_n500_d0.25,500,0.2500,false,6,Bidirectional Dijkstra List,mean=3.833,1277.000000,0.126055900,0.021009317,Correct
+all_nonneg_n500_d0.25,500,0.2500,false,6,Bidirectional Dijkstra Matrix,mean=3.833,1277.000000,0.095212800,0.015868800,Correct
+all_nonneg_n500_d0.25,500,0.2500,false,6,Bellman-Ford,mean=3.833,395041.666667,0.174297700,0.029049617,Correct
+all_nonneg_n500_d0.25,500,0.2500,false,6,Floyd-Warshall,mean=3.833,20833333.333333,13.302134600,2.217022433,Reference
+all_nonneg_n1000_d0.02,1000,0.0200,false,6,Dijkstra List,mean=10.67,9642.500000,0.068254600,0.011375767,Correct
+all_nonneg_n1000_d0.02,1000,0.0200,false,6,Dijkstra Matrix,mean=10.67,9642.500000,0.195374200,0.032562367,Correct
+all_nonneg_n1000_d0.02,1000,0.0200,false,6,Bidirectional Dijkstra List,mean=10.67,596.666667,0.047350000,0.007891667,Correct
+all_nonneg_n1000_d0.02,1000,0.0200,false,6,Bidirectional Dijkstra Matrix,mean=10.67,596.666667,0.102966100,0.017161017,Correct
+all_nonneg_n1000_d0.02,1000,0.0200,false,6,Bellman-Ford,mean=10.67,186480.000000,0.083673300,0.013945550,Correct
+all_nonneg_n1000_d0.02,1000,0.0200,false,6,Floyd-Warshall,mean=10.67,166666666.666667,111.139759400,18.523293233,Reference
+all_nonneg_n1000_d0.10,1000,0.1000,false,6,Dijkstra List,mean=4.833,77425.833333,0.269550500,0.044925083,Correct
+all_nonneg_n1000_d0.10,1000,0.1000,false,6,Dijkstra Matrix,mean=4.833,77425.833333,0.380911600,0.063485267,Correct
+all_nonneg_n1000_d0.10,1000,0.1000,false,6,Bidirectional Dijkstra List,mean=4.833,2697.333333,0.247870200,0.041311700,Correct
+all_nonneg_n1000_d0.10,1000,0.1000,false,6,Bidirectional Dijkstra Matrix,mean=4.833,2697.333333,0.236670800,0.039445133,Correct
+all_nonneg_n1000_d0.10,1000,0.1000,false,6,Bellman-Ford,mean=4.833,699300.000000,0.493403300,0.082233883,Correct
+all_nonneg_n1000_d0.10,1000,0.1000,false,6,Floyd-Warshall,mean=4.833,166666666.666667,110.749365300,18.458227550,Reference
+all_nonneg_n1000_d0.25,1000,0.2500,false,6,Dijkstra List,mean=3,175123.000000,1.054809500,0.175801583,Correct
+all_nonneg_n1000_d0.25,1000,0.2500,false,6,Dijkstra Matrix,mean=3,175123.000000,0.858478000,0.143079667,Correct
+all_nonneg_n1000_d0.25,1000,0.2500,false,6,Bidirectional Dijkstra List,mean=3,3849.500000,1.486494000,0.247749000,Correct
+all_nonneg_n1000_d0.25,1000,0.2500,false,6,Bidirectional Dijkstra Matrix,mean=3,3849.500000,0.913159000,0.152193167,Correct
+all_nonneg_n1000_d0.25,1000,0.2500,false,6,Bellman-Ford,mean=3,1498500.000000,2.193475600,0.365579267,Correct
+all_nonneg_n1000_d0.25,1000,0.2500,false,6,Floyd-Warshall,mean=3,166666666.666667,166.091578900,27.681929817,Reference
+all_acyclic_neg_n30_d0.05,30,0.0500,true,6,Dijkstra List,unreachable=6,3.333333,0.000050300,0.000008383,Not guaranteed with negative weights / limitation demo
+all_acyclic_neg_n30_d0.05,30,0.0500,true,6,Dijkstra Matrix,unreachable=6,3.333333,0.000108500,0.000018083,Not guaranteed with negative weights / limitation demo
+all_acyclic_neg_n30_d0.05,30,0.0500,true,6,Bidirectional Dijkstra List,unreachable=6,2.333333,0.000064900,0.000010817,Not guaranteed with negative weights / limitation demo
+all_acyclic_neg_n30_d0.05,30,0.0500,true,6,Bidirectional Dijkstra Matrix,unreachable=6,5.666667,0.000257100,0.000042850,Not guaranteed with negative weights / limitation demo
+all_acyclic_neg_n30_d0.05,30,0.0500,true,6,Bellman-Ford,unreachable=6,95.333333,0.000040300,0.000006717,Reference
+all_acyclic_neg_n30_d0.05,30,0.0500,true,6,Floyd-Warshall,unreachable=6,4500.000000,0.048381500,0.008063583,Reference
+all_acyclic_neg_n30_d0.10,30,0.1000,true,6,Dijkstra List,mean=13; unreachable=4,11.333333,0.000778900,0.000129817,Not guaranteed with negative weights / limitation demo
+all_acyclic_neg_n30_d0.10,30,0.1000,true,6,Dijkstra Matrix,mean=13; unreachable=4,10.666667,0.000177100,0.000029517,Not guaranteed with negative weights / limitation demo
+all_acyclic_neg_n30_d0.10,30,0.1000,true,6,Bidirectional Dijkstra List,mean=13; unreachable=4,9.333333,0.000098400,0.000016400,Not guaranteed with negative weights / limitation demo
+all_acyclic_neg_n30_d0.10,30,0.1000,true,6,Bidirectional Dijkstra Matrix,mean=13; unreachable=4,15.166667,0.000387300,0.000064550,Not guaranteed with negative weights / limitation demo
+all_acyclic_neg_n30_d0.10,30,0.1000,true,6,Bellman-Ford,mean=13; unreachable=4,220.000000,0.000084600,0.000014100,Reference
+all_acyclic_neg_n30_d0.10,30,0.1000,true,6,Floyd-Warshall,mean=13; unreachable=4,4500.000000,0.002366900,0.000394483,Reference
+all_acyclic_neg_n50_d0.05,50,0.0500,true,6,Dijkstra List,mean=27; unreachable=5,3.833333,0.000110200,0.000018367,Not guaranteed with negative weights / limitation demo
+all_acyclic_neg_n50_d0.05,50,0.0500,true,6,Dijkstra Matrix,mean=27; unreachable=5,3.833333,0.000214900,0.000035817,Not guaranteed with negative weights / limitation demo
+all_acyclic_neg_n50_d0.05,50,0.0500,true,6,Bidirectional Dijkstra List,mean=27; unreachable=5,5.666667,0.000134700,0.000022450,Not guaranteed with negative weights / limitation demo
+all_acyclic_neg_n50_d0.05,50,0.0500,true,6,Bidirectional Dijkstra Matrix,mean=27; unreachable=5,9.166667,0.000551800,0.000091967,Not guaranteed with negative weights / limitation demo
+all_acyclic_neg_n50_d0.05,50,0.0500,true,6,Bellman-Ford,mean=27; unreachable=5,284.666667,0.000104300,0.000017383,Reference
+all_acyclic_neg_n50_d0.05,50,0.0500,true,6,Floyd-Warshall,mean=27; unreachable=5,20833.333333,0.009508500,0.001584750,Reference
+all_acyclic_neg_n50_d0.10,50,0.1000,true,6,Dijkstra List,mean=8; unreachable=3,19.166667,0.000154100,0.000025683,Not guaranteed with negative weights / limitation demo
+all_acyclic_neg_n50_d0.10,50,0.1000,true,6,Dijkstra Matrix,mean=8; unreachable=3,19.166667,0.000347500,0.000057917,Not guaranteed with negative weights / limitation demo
+all_acyclic_neg_n50_d0.10,50,0.1000,true,6,Bidirectional Dijkstra List,mean=8; unreachable=3,18.000000,0.000219500,0.000036583,Not guaranteed with negative weights / limitation demo
+all_acyclic_neg_n50_d0.10,50,0.1000,true,6,Bidirectional Dijkstra Matrix,mean=8; unreachable=3,27.000000,0.000864400,0.000144067,Not guaranteed with negative weights / limitation demo
+all_acyclic_neg_n50_d0.10,50,0.1000,true,6,Bellman-Ford,mean=8; unreachable=3,589.666667,0.000497000,0.000082833,Reference
+all_acyclic_neg_n50_d0.10,50,0.1000,true,6,Floyd-Warshall,mean=8; unreachable=3,20833.333333,0.011427300,0.001904550,Reference
+all_neg_cycle_toy,4,0.3500,true,6,Dijkstra List,mean=1.2; unreachable=1,3.500000,0.000028100,0.000004683,Not guaranteed with negative weights / limitation demo
+all_neg_cycle_toy,4,0.3500,true,6,Dijkstra Matrix,mean=1.2; unreachable=1,2.000000,0.000027100,0.000004517,Not guaranteed with negative weights / limitation demo
+all_neg_cycle_toy,4,0.3500,true,6,Bidirectional Dijkstra List,mean=1.2; unreachable=1,1.833333,0.000049800,0.000008300,Not guaranteed with negative weights / limitation demo
+all_neg_cycle_toy,4,0.3500,true,6,Bidirectional Dijkstra Matrix,mean=1.2; unreachable=1,2.166667,0.000047900,0.000007983,Not guaranteed with negative weights / limitation demo
+all_neg_cycle_toy,4,0.3500,true,6,Bellman-Ford,unreachable=1; neg_inf=5,24.000000,0.000028300,0.000004717,Negative cycle detected
+all_neg_cycle_toy,4,0.3500,true,6,Floyd-Warshall,mean=-3.6; unreachable=1,10.666667,0.000862300,0.000143717,Negative cycle detected

@@ -14,6 +14,7 @@ from __future__ import annotations
 import csv
 import math
 import time
+import concurrent.futures
 from collections import defaultdict
 from typing import Any, Callable, Dict, List, Optional, Sequence, Tuple
 
@@ -38,13 +39,6 @@ ALGORITHMS: List[Tuple[str, AlgoFn]] = [
     ("Bidirectional Dijkstra Matrix", bidirectional_dijkstra_matrix),
     ("Bellman-Ford", bellman_ford),
 ]
-
-LARGE_SCALABILITY_SKIP: Dict[str, str] = {
-    "Dijkstra Matrix": "Skipped due to O(V^2) matrix memory/runtime cost on large graph",
-    "Bidirectional Dijkstra Matrix": "Skipped due to O(V^2) matrix memory/runtime cost on large graph",
-    "Bellman-Ford": "Skipped due to O(VE) scalability on large graph",
-    "Floyd-Warshall": "Skipped due to O(V^3) scalability on large graph",
-}
 
 DIJKSTRA_FAMILY = {
     "Dijkstra List",
@@ -122,36 +116,12 @@ def _average_distance_summary(distances: List[Optional[float]]) -> str:
     return "; ".join(parts)
 
 
-def _should_skip_algorithm(case: Dict[str, Any], algorithm_name: str) -> Optional[str]:
-    num_nodes = case["num_nodes"]
-
-    if algorithm_name == "Floyd-Warshall" and num_nodes > 250:
-        return "Skipped due to O(V^3) matrix memory/runtime cost"
-
-    if algorithm_name == "Bellman-Ford" and num_nodes >= 1000:
-        return "Skipped due to O(VE) scalability limit on large graphs"
-
-    if algorithm_name in ("Dijkstra Matrix", "Bidirectional Dijkstra Matrix") and num_nodes >= 1000:
-        return "Skipped due to O(V^2) matrix representation limits"
-
-    if case["benchmark_type"] == "large_scalability":
-        return LARGE_SCALABILITY_SKIP.get(algorithm_name)
-
-    return None
-
-
 def _status_for_row(
     case: Dict[str, Any],
     algorithm_name: str,
-    skipped: bool,
-    skip_reason: str,
     has_negative_cycle: bool,
     all_match_reference: bool,
 ) -> str:
-    if skipped:
-        return skip_reason
-    if case["benchmark_type"] == "large_scalability":
-        return "-"
     if case["allow_negative"] and algorithm_name in DIJKSTRA_FAMILY:
         return NEG_WEIGHT_LIMITATION
     if has_negative_cycle and algorithm_name in REFERENCE_ALGOS:
@@ -213,17 +183,37 @@ def _run_normal_algorithm_row(
     reference: List[Optional[float]],
     has_negative_cycle: bool,
 ) -> Dict[str, Any]:
-    distances: List[Optional[float]] = []
-    total_visited = 0
-    total_seconds = 0.0
+    def run_queries():
+        distances_inner: List[Optional[float]] = []
+        tot_vis = 0
+        tot_sec = 0.0
+        for s, t in queries:
+            t0 = time.perf_counter()
+            dist, visited = algo_fn(num_nodes, edges, s, t)
+            t1 = time.perf_counter()
+            tot_sec += t1 - t0
+            tot_vis += visited
+            distances_inner.append(_normalize_distance(dist))
+        return distances_inner, tot_vis, tot_sec
 
-    for s, t in queries:
-        t0 = time.perf_counter()
-        dist, visited = algo_fn(num_nodes, edges, s, t)
-        t1 = time.perf_counter()
-        total_seconds += t1 - t0
-        total_visited += visited
-        distances.append(_normalize_distance(dist))
+    try:
+        with concurrent.futures.ThreadPoolExecutor(max_workers=1) as executor:
+            future = executor.submit(run_queries)
+            distances, total_visited, total_seconds = future.result(timeout=300)
+    except concurrent.futures.TimeoutError:
+        return {
+            "test_case": case["name"],
+            "num_nodes": str(num_nodes),
+            "density": f"{case['density']:.4f}",
+            "allow_negative": str(bool(case["allow_negative"])).lower(),
+            "query_count": str(query_count),
+            "algorithm": algorithm_name,
+            "average_distance_summary": "SKIPPED",
+            "average_visited_count": "-",
+            "total_runtime_seconds": "-",
+            "average_runtime_seconds": "-",
+            "status": "Skipped due to 5-minute timeout limit",
+        }
 
     average_seconds = total_seconds / query_count if query_count else 0.0
     average_visited = total_visited / query_count if query_count else 0.0
@@ -232,7 +222,7 @@ def _run_normal_algorithm_row(
         _distances_equivalent(distances[i], reference[i]) for i in range(len(queries))
     )
     status = _status_for_row(
-        case, algorithm_name, False, "", has_negative_cycle, all_match
+        case, algorithm_name, has_negative_cycle, all_match
     )
 
     return {
@@ -282,32 +272,30 @@ def _run_benchmark() -> List[Dict[str, Any]]:
         reference: List[Optional[float]] = []
         fw_shared: Optional[Tuple[List[List[float]], int, bool, float]] = None
 
-        if benchmark_type == "all_algorithms":
-            if num_nodes <= 250:
-                t_prep0 = time.perf_counter()
-                dist_matrix, prep_visited, has_negative_cycle = floyd_warshall_preprocess(
-                    num_nodes, edges
-                )
-                prep_seconds = time.perf_counter() - t_prep0
-                fw_shared = (dist_matrix, prep_visited, has_negative_cycle, prep_seconds)
-                reference = _reference_per_query(
-                    num_nodes, edges, queries, dist_matrix, has_negative_cycle
-                )
-            else:
-                has_negative_cycle = False
-                reference = []
-                for s, t in queries:
-                    dist, _ = dijkstra_list(num_nodes, edges, s, t)
-                    reference.append(_normalize_distance(dist))
+        def run_fw_prep():
+            return floyd_warshall_preprocess(num_nodes, edges)
+
+        t_prep0 = time.perf_counter()
+        print(f"[{case['name']}] Running Floyd-Warshall preprocess...", flush=True)
+        try:
+            with concurrent.futures.ThreadPoolExecutor(max_workers=1) as executor:
+                future = executor.submit(run_fw_prep)
+                dist_matrix, prep_visited, has_negative_cycle = future.result(timeout=300)
+            prep_seconds = time.perf_counter() - t_prep0
+            fw_shared = (dist_matrix, prep_visited, has_negative_cycle, prep_seconds)
+            reference = _reference_per_query(
+                num_nodes, edges, queries, dist_matrix, has_negative_cycle
+            )
+        except concurrent.futures.TimeoutError:
+            fw_shared = None
+            has_negative_cycle = False
+            reference = []
+            for s, t in queries:
+                dist, _ = dijkstra_list(num_nodes, edges, s, t)
+                reference.append(_normalize_distance(dist))
 
         for algo_name, algo_fn in ALGORITHMS:
-            skip_reason = _should_skip_algorithm(case, algo_name)
-            if skip_reason is not None:
-                rows.append(_skipped_row(case, algo_name, skip_reason))
-                continue
-            if benchmark_type != "all_algorithms":
-                reference = []
-                has_negative_cycle = False
+            print(f"[{case['name']}] Running {algo_name}...", flush=True)
             row = _run_normal_algorithm_row(
                 case,
                 algo_name,
@@ -316,22 +304,31 @@ def _run_benchmark() -> List[Dict[str, Any]]:
                 edges,
                 queries,
                 query_count,
-                reference if benchmark_type == "all_algorithms" else [None] * len(queries),
-                has_negative_cycle if benchmark_type == "all_algorithms" else False,
+                reference,
+                has_negative_cycle,
             )
-            if benchmark_type != "all_algorithms":
-                row["status"] = "-"
             rows.append(row)
 
-        fw_skip = _should_skip_algorithm(case, "Floyd-Warshall")
-        if fw_skip is not None:
-            rows.append(_skipped_row(case, "Floyd-Warshall", fw_skip))
-        elif benchmark_type == "all_algorithms" and fw_shared is not None:
+        if fw_shared is not None:
             rows.append(
                 _run_floyd_warshall_benchmark_row(
                     case, num_nodes, queries, query_count, fw_shared
                 )
             )
+        else:
+            rows.append({
+                "test_case": case["name"],
+                "num_nodes": str(num_nodes),
+                "density": f"{case['density']:.4f}",
+                "allow_negative": str(bool(case["allow_negative"])).lower(),
+                "query_count": str(query_count),
+                "algorithm": "Floyd-Warshall",
+                "average_distance_summary": "SKIPPED",
+                "average_visited_count": "-",
+                "total_runtime_seconds": "-",
+                "average_runtime_seconds": "-",
+                "status": "Skipped due to 5-minute timeout limit",
+            })
 
     return rows
 

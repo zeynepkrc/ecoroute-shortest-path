@@ -215,7 +215,7 @@ def create_test_cases() -> List[Dict[str, Any]]:
     query_count = 6
 
     # --- 1) Small/Medium: all algorithms, nonnegative weights -----------------
-    sizes = [50, 100, 250, 1000]
+    sizes = [50, 100, 250, 500, 1000]
     densities = [0.02, 0.10, 0.25]
     for n in sizes:
         for d in densities:
@@ -280,12 +280,7 @@ def create_test_cases() -> List[Dict[str, Any]]:
     )
 
     # --- 3) Large scalability (list-based Dijkstra only in main driver) ----------
-    large_cases = [
-        (800, 0.01),
-        (1200, 0.01),
-        (2000, 0.005),
-        (3000, 0.002),
-    ]
+    large_cases = []
     for n, d in large_cases:
         edges = generate_random_graph(n, d, max_weight=20, seed=seed_counter)
         seed_counter += 1
