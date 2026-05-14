@@ -215,7 +215,7 @@ def create_test_cases() -> List[Dict[str, Any]]:
     query_count = 6
 
     # --- 1) Small/Medium: all algorithms, nonnegative weights -----------------
-    sizes = [50, 100, 200, 250]
+    sizes = [50, 100, 250, 1000]
     densities = [0.02, 0.10, 0.25]
     for n in sizes:
         for d in densities:

@@ -41,11 +41,15 @@ def dijkstra_list(num_nodes: int, edges: Sequence[Edge], source: int, target: in
     dist[source] = 0.0
     heap: List[Tuple[float, int]] = [(0.0, source)]
     visited_count = 0
+    pop_count = [0] * num_nodes
 
     while heap:
         d_u, u = heapq.heappop(heap)
         if d_u != dist[u]:
             continue
+        pop_count[u] += 1
+        if pop_count[u] > num_nodes:
+            break
         if u == target:
             break
         for v, w in graph[u]:

@@ -49,6 +49,8 @@ def bidirectional_dijkstra_list(
     heap_b: List[Tuple[float, int]] = [(0.0, target)]
     visited_count = 0
     best = INF
+    pop_count_f = [0] * num_nodes
+    pop_count_b = [0] * num_nodes
 
     while heap_f and heap_b:
         min_f = heap_f[0][0]
@@ -60,6 +62,9 @@ def bidirectional_dijkstra_list(
             d_u, u = heapq.heappop(heap_f)
             if d_u != dist_f[u]:
                 continue
+            pop_count_f[u] += 1
+            if pop_count_f[u] > num_nodes:
+                break
             for v, w in g_f[u]:
                 visited_count += 1
                 nd = d_u + w
@@ -74,6 +79,9 @@ def bidirectional_dijkstra_list(
             d_u, u = heapq.heappop(heap_b)
             if d_u != dist_b[u]:
                 continue
+            pop_count_b[u] += 1
+            if pop_count_b[u] > num_nodes:
+                break
             for v, w in g_r[u]:
                 visited_count += 1
                 nd = d_u + w

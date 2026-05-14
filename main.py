@@ -123,9 +123,21 @@ def _average_distance_summary(distances: List[Optional[float]]) -> str:
 
 
 def _should_skip_algorithm(case: Dict[str, Any], algorithm_name: str) -> Optional[str]:
-    if case["benchmark_type"] != "large_scalability":
-        return None
-    return LARGE_SCALABILITY_SKIP.get(algorithm_name)
+    num_nodes = case["num_nodes"]
+
+    if algorithm_name == "Floyd-Warshall" and num_nodes > 250:
+        return "Skipped due to O(V^3) matrix memory/runtime cost"
+
+    if algorithm_name == "Bellman-Ford" and num_nodes >= 1000:
+        return "Skipped due to O(VE) scalability limit on large graphs"
+
+    if algorithm_name in ("Dijkstra Matrix", "Bidirectional Dijkstra Matrix") and num_nodes >= 1000:
+        return "Skipped due to O(V^2) matrix representation limits"
+
+    if case["benchmark_type"] == "large_scalability":
+        return LARGE_SCALABILITY_SKIP.get(algorithm_name)
+
+    return None
 
 
 def _status_for_row(
@@ -271,15 +283,22 @@ def _run_benchmark() -> List[Dict[str, Any]]:
         fw_shared: Optional[Tuple[List[List[float]], int, bool, float]] = None
 
         if benchmark_type == "all_algorithms":
-            t_prep0 = time.perf_counter()
-            dist_matrix, prep_visited, has_negative_cycle = floyd_warshall_preprocess(
-                num_nodes, edges
-            )
-            prep_seconds = time.perf_counter() - t_prep0
-            fw_shared = (dist_matrix, prep_visited, has_negative_cycle, prep_seconds)
-            reference = _reference_per_query(
-                num_nodes, edges, queries, dist_matrix, has_negative_cycle
-            )
+            if num_nodes <= 250:
+                t_prep0 = time.perf_counter()
+                dist_matrix, prep_visited, has_negative_cycle = floyd_warshall_preprocess(
+                    num_nodes, edges
+                )
+                prep_seconds = time.perf_counter() - t_prep0
+                fw_shared = (dist_matrix, prep_visited, has_negative_cycle, prep_seconds)
+                reference = _reference_per_query(
+                    num_nodes, edges, queries, dist_matrix, has_negative_cycle
+                )
+            else:
+                has_negative_cycle = False
+                reference = []
+                for s, t in queries:
+                    dist, _ = dijkstra_list(num_nodes, edges, s, t)
+                    reference.append(_normalize_distance(dist))
 
         for algo_name, algo_fn in ALGORITHMS:
             skip_reason = _should_skip_algorithm(case, algo_name)
