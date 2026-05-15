@@ -1,14 +1,3 @@
-"""
-Bellman-Ford for directed graphs (integer edge weights).
-
-``visited_count`` counts every edge examination: each time an edge ``(u, v, w)``
-is considered in a relaxation pass or in negative-cycle detection / propagation.
-
-Early stopping ends the main relaxation phase when a full pass makes no change.
-
-There is no global caching; each call runs a full Bellman-Ford from ``source``.
-"""
-
 from __future__ import annotations
 
 from typing import List, Optional, Sequence, Tuple, Union
@@ -20,14 +9,7 @@ INF = float("inf")
 def bellman_ford(
     num_nodes: int, edges: Sequence[Edge], source: int, target: int
 ) -> Tuple[Optional[float], int]:
-    """
-    Single-source Bellman-Ford from ``source``; report distance to ``target``.
-
-    Returns ``(None, visited_count)`` if ``target`` is unreachable,
-    ``(float('-inf'), visited_count)`` if a negative cycle reachable from
-    ``source`` can affect shortest paths to ``target``, otherwise
-    ``(dist[target], visited_count)``.
-    """
+    # Negatif ağırlıklı kenarlar barındıran yönlü graflarda en kısa yolu hesaplar ve negatif döngüleri tespit eder.
     if not (0 <= source < num_nodes and 0 <= target < num_nodes):
         raise ValueError("source and target must be in range 0 .. num_nodes - 1.")
 

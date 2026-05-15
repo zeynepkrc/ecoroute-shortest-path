@@ -24,6 +24,7 @@ def generate_random_graph(
     max_weight: int = 20,
     seed: int = 42,
 ) -> List[Edge]:
+    # Belirtilen düğüm sayısı ve yoğunluğa göre rastgele ağırlıklı yönlü bir graf (kenar listesi) oluşturur.
     """
     Build a simple directed weighted graph as an edge list.
 
@@ -113,6 +114,7 @@ def generate_random_graph(
 
 
 def _build_query_set(num_nodes: int, seed: int, query_count: int) -> List[Tuple[int, int]]:
+    # Benchmark sırasında kullanılacak rastgele (fakat seed ile sabitlenmiş) kaynak-hedef düğüm çiftleri (sorgular) üretir.
     """Deterministic multi-source-target pairs for benchmarking."""
     rng = random.Random(seed)
     pairs: List[Tuple[int, int]] = []
@@ -145,6 +147,7 @@ def generate_acyclic_random_graph(
     neg_edge_probability: float = 0.35,
     negative_ratio: Optional[float] = None,
 ) -> List[Edge]:
+    # Negatif döngü oluşmasını engellemek için sadece küçükten büyüğe (u -> v, u < v) giden, negatif ağırlıklı olabilen asiklik graf üretir.
     """
     Random DAG on labels ``0 .. n-1`` using only edges ``u -> v`` with ``u < v``.
 
@@ -182,6 +185,7 @@ def generate_acyclic_random_graph(
 
 
 def negative_cycle_toy_edges() -> Tuple[int, List[Edge]]:
+    # Negatif döngü algılama algoritmalarını test etmek için bilinçli olarak negatif döngü barındıran küçük bir graf döndürür.
     """
     Small graph with a reachable negative directed cycle.
 
@@ -198,6 +202,7 @@ def negative_cycle_toy_edges() -> Tuple[int, List[Edge]]:
 
 
 def create_test_cases() -> List[Dict[str, Any]]:
+    # Küçük, orta ve negatif ağırlıklı özel durumlar da dahil olmak üzere algoritmaların test edileceği tüm senaryoları (case) oluşturur.
     """
     Benchmark suite with shared query sets and benchmark metadata.
 

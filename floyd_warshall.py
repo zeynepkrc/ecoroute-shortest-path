@@ -17,14 +17,7 @@ INF = float("inf")
 def floyd_warshall_preprocess(
     num_nodes: int, edges: Sequence[Edge]
 ) -> Tuple[List[List[float]], int, bool]:
-    """
-    Build an all-pairs distance matrix with one Floyd-Warshall pass.
-
-    Returns ``(dist_matrix, visited_count, has_negative_cycle)``.
-    ``has_negative_cycle`` is True iff some vertex ``i`` has ``dist[i][i] < 0``
-    after the triple loop (standard sufficient check for a negative directed
-    cycle in the graph).
-    """
+    # Tüm düğüm çiftleri arasındaki en kısa yol matrisini oluşturur ve negatif döngü kontrolü yapar.
     if num_nodes < 1:
         raise ValueError("num_nodes must be at least 1.")
 
@@ -57,10 +50,7 @@ def _finite_int_distance(d: float) -> Optional[int]:
 
 
 def floyd_warshall(num_nodes: int, edges: Sequence[Edge], source: int, target: int) -> Tuple[Optional[int], int]:
-    """
-    Build a distance matrix from ``edges``, run Floyd-Warshall, return
-    ``dist[source][target]`` and the triple-loop iteration count.
-    """
+    # Floyd-Warshall algoritmasını çalıştırarak belirtilen iki düğüm arasındaki en kısa yolu döner.
     if not (0 <= source < num_nodes and 0 <= target < num_nodes):
         raise ValueError("source and target must be in range 0 .. num_nodes - 1.")
     if num_nodes < 1:

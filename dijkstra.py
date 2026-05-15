@@ -22,12 +22,7 @@ def _finite_int_distance(d: float) -> Optional[int]:
 
 
 def dijkstra_list(num_nodes: int, edges: Sequence[Edge], source: int, target: int) -> Tuple[Optional[int], int]:
-    """
-    Dijkstra with adjacency list and binary min-heap.
-
-    visited_count: number of times an outgoing edge is scanned from the vertex
-    popped from the heap (relaxation attempts, including non-improving checks).
-    """
+    # Negatif olmayan ağırlıklı graflarda (liste ve min-heap kullanarak) en kısa yolu hesaplar.
     if not (0 <= source < num_nodes and 0 <= target < num_nodes):
         raise ValueError("source and target must be in range 0 .. num_nodes - 1.")
     if source == target:
@@ -63,13 +58,7 @@ def dijkstra_list(num_nodes: int, edges: Sequence[Edge], source: int, target: in
 
 
 def dijkstra_matrix(num_nodes: int, edges: Sequence[Edge], source: int, target: int) -> Tuple[Optional[int], int]:
-    """
-    Classic Dijkstra without heap: each step scan all unsettled vertices for the
-    minimum tentative distance (O(V^2) total for nonnegative weights).
-
-    visited_count: each time we scan an entry ``(u, v)`` in the adjacency row
-    of the settled vertex ``u`` (relaxation attempt).
-    """
+    # Negatif olmayan ağırlıklı graflarda (matris kullanarak) en kısa yolu hesaplar.
     if not (0 <= source < num_nodes and 0 <= target < num_nodes):
         raise ValueError("source and target must be in range 0 .. num_nodes - 1.")
     if source == target:

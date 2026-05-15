@@ -1,9 +1,4 @@
-"""
-Bidirectional Dijkstra: list + heap and matrix (O(V^2) per phase) variants.
 
-``visited_count`` counts outgoing edge examinations from vertices that are
-selected as the current minimum-distance frontier node (forward or backward).
-"""
 
 from __future__ import annotations
 
@@ -23,12 +18,7 @@ def _finite_int_distance(d: float) -> Optional[int]:
 def bidirectional_dijkstra_list(
     num_nodes: int, edges: Sequence[Edge], source: int, target: int
 ) -> Tuple[Optional[int], int]:
-    """
-    Bidirectional search on ``G`` (forward) and the transpose graph (backward).
 
-    ``visited_count``: neighbor edge scans from popped heap nodes (forward +
-    backward combined).
-    """
     if not (0 <= source < num_nodes and 0 <= target < num_nodes):
         raise ValueError("source and target must be in range 0 .. num_nodes - 1.")
     if source == target:
@@ -101,10 +91,7 @@ def bidirectional_dijkstra_list(
 def bidirectional_dijkstra_matrix(
     num_nodes: int, edges: Sequence[Edge], source: int, target: int
 ) -> Tuple[Optional[int], int]:
-    """
-    Matrix analogue: each side uses linear scans for the next frontier vertex
-    (no binary heap). Forward uses ``W``; backward uses ``W_rev`` (transpose).
-    """
+    
     if not (0 <= source < num_nodes and 0 <= target < num_nodes):
         raise ValueError("source and target must be in range 0 .. num_nodes - 1.")
     if source == target:

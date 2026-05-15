@@ -53,6 +53,7 @@ NEG_WEIGHT_LIMITATION = "Not guaranteed with negative weights / limitation demo"
 
 
 def _normalize_distance(value: Any) -> Optional[float]:
+    # Gelen uzaklık değerini (inf/-inf vb.) standart bir float veya None formatına dönüştürür.
     if value is None:
         return None
     if isinstance(value, float) and value == float("-inf"):
@@ -61,6 +62,7 @@ def _normalize_distance(value: Any) -> Optional[float]:
 
 
 def _matrix_distance(dist_matrix: List[List[float]], s: int, t: int) -> Optional[float]:
+    # Önceden hesaplanmış uzaklık matrisinden, belirli başlangıç ve bitiş düğümleri arasındaki uzaklığı okur.
     d = dist_matrix[s][t]
     if d >= INF / 2:
         return None
@@ -68,6 +70,7 @@ def _matrix_distance(dist_matrix: List[List[float]], s: int, t: int) -> Optional
 
 
 def _distances_equivalent(a: Optional[float], b: Optional[float]) -> bool:
+    # İki uzaklık değerinin (hesaplanan ve referans) birbirine eşit olup olmadığını kontrol eder.
     if a is None and b is None:
         return True
     if a is None or b is None:
@@ -84,6 +87,7 @@ def _reference_per_query(
     dist_matrix: List[List[float]],
     has_negative_cycle: bool,
 ) -> List[Optional[float]]:
+    # Sorgular için doğru (referans) kabul edilecek sonuçları Bellman-Ford veya matris kullanarak hesaplar.
     if has_negative_cycle:
         out: List[Optional[float]] = []
         for s, t in queries:
@@ -94,6 +98,7 @@ def _reference_per_query(
 
 
 def _average_distance_summary(distances: List[Optional[float]]) -> str:
+    # Sorgularda bulunan uzaklıkların (ortalama, ulaşılamayan vb.) özetini bir string olarak oluşturur.
     finites: List[float] = []
     n_none = 0
     n_neg_inf = 0
@@ -122,6 +127,7 @@ def _status_for_row(
     has_negative_cycle: bool,
     all_match_reference: bool,
 ) -> str:
+    # Algoritmanın çalışma durumunu (Doğru, Hata, Referans vb.) test durumuna göre belirler.
     if case["allow_negative"] and algorithm_name in DIJKSTRA_FAMILY:
         return NEG_WEIGHT_LIMITATION
     if has_negative_cycle and algorithm_name in REFERENCE_ALGOS:
@@ -142,6 +148,7 @@ def _run_floyd_warshall_benchmark_row(
     query_count: int,
     fw_shared: Tuple[List[List[float]], int, bool, float],
 ) -> Dict[str, Any]:
+    # Floyd-Warshall algoritması için benchmark sonuçlarını hesaplar ve bir sözlük (row) olarak döner.
     dist_matrix, prep_visited, has_negative_cycle, prep_seconds = fw_shared
 
     t_lu0 = time.perf_counter()
@@ -183,6 +190,7 @@ def _run_normal_algorithm_row(
     reference: List[Optional[float]],
     has_negative_cycle: bool,
 ) -> Dict[str, Any]:
+    # Standart algoritmaların (Dijkstra, Bellman-Ford vb.) performansını ölçer ve sonucu döndürür.
     def run_queries():
         distances_inner: List[Optional[float]] = []
         tot_vis = 0
@@ -241,6 +249,7 @@ def _run_normal_algorithm_row(
 
 
 def _skipped_row(case: Dict[str, Any], algorithm_name: str, reason: str) -> Dict[str, Any]:
+    # Zaman aşımı gibi nedenlerle atlanan algoritmalar için boş/skipped durumunu içeren bir satır oluşturur.
     n = case["num_nodes"]
     return {
         "test_case": case["name"],
@@ -258,6 +267,7 @@ def _skipped_row(case: Dict[str, Any], algorithm_name: str, reason: str) -> Dict
 
 
 def _run_benchmark() -> List[Dict[str, Any]]:
+    # Test senaryolarını sırayla tüm algoritmalar için çalıştırarak benchmark sonuçlarını tablo satırları halinde toplar.
     rows: List[Dict[str, Any]] = []
     for case in create_test_cases():
         num_nodes = case["num_nodes"]
@@ -334,6 +344,7 @@ def _run_benchmark() -> List[Dict[str, Any]]:
 
 
 def _write_csv(rows: List[Dict[str, Any]], path: str) -> None:
+    # Elde edilen benchmark sonuçlarını belirtilen CSV dosyasına yazar.
     fieldnames = [
         "test_case",
         "num_nodes",
@@ -355,6 +366,7 @@ def _write_csv(rows: List[Dict[str, Any]], path: str) -> None:
 
 
 def _print_table(rows: List[Dict[str, Any]]) -> None:
+    # Sonuçların özetini konsol ekranına okunabilir bir tablo olarak yazdırır.
     header = (
         "| test_case | n | density | allow_neg | Q | algorithm | avg_dist | avg_vis | "
         "t_total_s | t_avg_s | status |"
@@ -375,6 +387,7 @@ def _print_table(rows: List[Dict[str, Any]]) -> None:
 
 
 def _summarize(rows: List[Dict[str, Any]]) -> None:
+    # En hızlı algoritmaları ve çeşitli istatistiksel notları konsolda özet halinde sunar.
     groups: Dict[Tuple[str, int, str], List[Dict[str, Any]]] = defaultdict(list)
     for r in rows:
         if r["average_runtime_seconds"] == "-":
@@ -434,6 +447,7 @@ def _summarize(rows: List[Dict[str, Any]]) -> None:
 
 
 def _optional_plots(rows: List[Dict[str, Any]]) -> None:
+    # Eğer matplotlib yüklüyse, algoritmaların çalışma süreleri ve ziyaret edilen düğüm sayıları için grafikler çizer.
     try:
         import matplotlib
 
